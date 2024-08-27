@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db636a6bcaf3214db850356d2c22594, type: 3}
+  m_Name: HealthPotionConfig
+  m_EditorClassIdentifier: 
+  healthPotions:
+  - Type: 0
+    potion: {fileID: 5458213418515225398, guid: 6c64f3cd9f229a441bff84a0e43174d1, type: 3}
+    <HealthRecover>k__BackingField: 1000
+  - Type: 1
+    potion: {fileID: 7780630441102287659, guid: 658a618a3dc92cb4aac041ff9de6574c, type: 3}
+    <HealthRecover>k__BackingField: 100

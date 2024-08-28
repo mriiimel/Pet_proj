@@ -7,8 +7,6 @@ TagManager:
   - Enemy
   - Shield
   - HeroBody
-  - Kill Manager
-  - EnemyKys
   - Sword
   - Weapon
   - Pseudopod
@@ -20,7 +18,7 @@ TagManager:
   - Hero
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

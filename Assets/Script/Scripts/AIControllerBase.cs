@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
-public class AIControllerBase : MonoBehaviour ,IMoveable,IAttakable,IDamageable
+public class AIControllerBase : MonoBehaviour ,IEnemy,IMoveable,IAttakable
 {
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator _animator;
@@ -11,7 +11,7 @@ public class AIControllerBase : MonoBehaviour ,IMoveable,IAttakable,IDamageable
     [SerializeField] private Collider _collider;
     
     [Inject] private AnimatorController _animatorController;
-    [Inject] private HeroConfig _heroConfig;
+    
     
 
     public void Attack()
@@ -22,10 +22,5 @@ public class AIControllerBase : MonoBehaviour ,IMoveable,IAttakable,IDamageable
     public void OnMove()
     {
         _animatorController.PlayAnimation(_animator, "Move");
-    }
-
-    public void GetDamage(int damage)
-    {
-        
     }
 }

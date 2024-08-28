@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7776720313403773217}
   - component: {fileID: 6601802514676896682}
   - component: {fileID: 5535941815486180194}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3156489176376527095}
   - component: {fileID: 5317674685189825567}
   - component: {fileID: 7680826909924041908}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 8618542878397039702}
   - component: {fileID: -8368805188363066841}
   - component: {fileID: 3267598722316925660}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TinySlime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -342,6 +342,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1667307065079970865}
     m_Modifications:
+    - target: {fileID: 1853452484765506116, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669671996729381096, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462198102605605742, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472165668445287724, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961917832403913375, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6216532115693788942, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -386,6 +406,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime_01
       objectReference: {fileID: 0}
+    - target: {fileID: 6705402075998324148, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534262480104691789, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8414972406771447875, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -407,6 +439,10 @@ PrefabInstance:
     - target: {fileID: 1067307943754004356, guid: 339eb27f660005c40966cef46cc5a35a, type: 3}
       propertyPath: m_Name
       value: Pseudopod
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067307943754004356, guid: 339eb27f660005c40966cef46cc5a35a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7413415065737097486, guid: 339eb27f660005c40966cef46cc5a35a, type: 3}
       propertyPath: m_LocalPosition.x

@@ -8,7 +8,7 @@ using Zenject;
 using Random = UnityEngine.Random;
 
 
-public class PlayerControllerBase : MonoBehaviour
+public class PlayerControllerBase : MonoBehaviour,IPlayer
 {
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Collider _collider;

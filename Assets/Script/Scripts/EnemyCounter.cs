@@ -8,10 +8,10 @@ using UnityEngine;
 public class EnemyCounter : ScriptableObject
 {
     [SerializeField] private List<Counter> _couner;
-    
-    
-    
-    public void CountEnemy(ObjectPool objectPool,int totalEnemyCounter)
+
+
+
+    public void CountEnemy(ObjectPool objectPool, ref int maxEnemy)
     {
         for(int i =0;  i < _couner.Count; i++)
         {
@@ -19,7 +19,7 @@ public class EnemyCounter : ScriptableObject
             var obj = _couner[i];
             for(int j = 0; j < obj.EnemyCount; j++)
             {
-                totalEnemyCounter++;
+                maxEnemy++;
                 objectPool.AddToPool(obj.EnemyType);
             }
         }

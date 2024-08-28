@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3412107236808276165}
   - component: {fileID: 7758622039352248397}
   - component: {fileID: 3467849082997696056}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SlimeBigKing
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +68,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -107,6 +107,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7842254343870235826}
     m_Modifications:
+    - target: {fileID: 1074905056841419171, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1342700970717424045, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284476614372009154, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3467851699220123360, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -159,9 +171,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3808139919822216049, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4281683080859636826, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
       propertyPath: m_Name
       value: Slime_03 King
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281683080859636826, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6226777814166338176, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742023579735404407, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822947617055703412, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213536415483104170, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 253187629309525382, guid: 93df5c48d5e021040916b0e984d9b01a, type: 3}
@@ -185,6 +221,10 @@ PrefabInstance:
     - target: {fileID: 1067307943754004356, guid: 339eb27f660005c40966cef46cc5a35a, type: 3}
       propertyPath: m_Name
       value: Pseudopod
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067307943754004356, guid: 339eb27f660005c40966cef46cc5a35a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7413415065737097486, guid: 339eb27f660005c40966cef46cc5a35a, type: 3}
       propertyPath: m_LocalPosition.x

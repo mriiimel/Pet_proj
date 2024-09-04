@@ -1,20 +1,30 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
 
-public class MenuPauseController : MonoBehaviour
+public class UIController : MonoBehaviour
 {
     [SerializeField] private GameObject _menu;
+    [SerializeField] private TextMeshProUGUI _heroHealthBarText;
+    [SerializeField] private TextMeshProUGUI _totalEnemyText;
     
-    [Inject] PlayerController _playerController;
-    [Inject] PlayerInput inputs;
+    PlayerController _playerController;
+    
     
     
     private bool _onPaused = false;
 
     public bool OnPaused { get => _onPaused; set => _onPaused = value; }
-
+    public TextMeshProUGUI HeroHealthBarText { get => _heroHealthBarText; set => _heroHealthBarText = value; }
+    public TextMeshProUGUI TotalEnemyText { get => _totalEnemyText; set => _totalEnemyText = value; }
+    
+    [Inject]
+    private void Construct(PlayerController playerControllerBase)
+    {
+        _playerController = playerControllerBase;
+    }
     public  void OnPause(InputAction.CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started)

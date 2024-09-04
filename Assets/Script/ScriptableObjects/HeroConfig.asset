@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf06c99e7665de341b6f71fde2277c44, type: 3}
   m_Name: HeroConfig
   m_EditorClassIdentifier: 
+  <player>k__BackingField: {fileID: 0}
   <MaxHealh>k__BackingField: 1000
   <Damage>k__BackingField: 100
-  <Speed>k__BackingField: 0.4
+  <Speed>k__BackingField: 0.37
+  <MaxVerticalSpeed>k__BackingField: 0.09
   <RotationSpeed>k__BackingField: 0.03
   <CritChance>k__BackingField: 15

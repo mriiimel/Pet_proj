@@ -14,6 +14,7 @@ public class PlayerController : PlayerControllerBase
     {
         Cursor.visible = false;
         _currentHealth = _heroConfig.MaxHealh;
+        _textMeshProUGUI = _pauseController.HeroHealthBarText;
         _textMeshProUGUI.text = _currentHealth.ToString();
     }
 

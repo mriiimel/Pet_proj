@@ -1,23 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CameraController : CameraBase
+namespace Camera_Controller
 {
-    private Vector3 _camRotation;
-
-   
-
-    private void Update()
+    public class CameraController : CameraBase
     {
-        _camRotation = _camMovement;
-    }
 
-    private void FixedUpdate()
-    {
-        CameraRotate(_camRotation);
-    }
+        private void Update()
+        {
+            Init();
+        }
 
-    
+    }
 }

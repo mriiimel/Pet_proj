@@ -1,14 +1,11 @@
-﻿using Enemy_Config;
-using Object_Pool;
-using System.Collections.Generic;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
 
 namespace Enemy_Factory
 {
     public class Factory: FactoryBase
     {
+        
         private void Start()
         {
             

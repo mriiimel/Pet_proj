@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class Enemy : MonoBehaviour,IEnemy
+public class Enemy : EnemyBase,IEnemy
 {
     [field:SerializeField] public EnemyTypes Type { get; private set; }
     

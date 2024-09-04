@@ -11,22 +11,21 @@ using Random = UnityEngine.Random;
 public class PlayerControllerBase : MonoBehaviour,IPlayer
 {
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private Collider _collider;
     [SerializeField] private Animator _animator;
     [SerializeField] private Collider _weaponCollider;
     [SerializeField] private Collider _shildCollider;
-    [SerializeField] protected TextMeshProUGUI _textMeshProUGUI;
-
-    #region Inject fields
-    [Inject]private AnimatorController _animController;
-    [Inject]private MenuPauseController _menuPauseController;
-    [Inject]protected HeailhBehaviour _heailhBehaviour;
-    [Inject]protected HeroConfig _heroConfig;
-    [Inject]protected ConfigAllEnemys _enemyConfig;
-    [Inject]protected HealthPotionConfig _healthPotionConfig;
-    #endregion
+    
+    
 
     #region Privet and protected fields
+    protected TextMeshProUGUI _textMeshProUGUI;
+    private AnimatorController _animController;
+    private UIController _menuPauseController;
+    protected HeailhBehaviour _heailhBehaviour;
+    protected HeroConfig _heroConfig;
+    protected ConfigAllEnemys _enemyConfig;
+    protected HealthPotionConfig _healthPotionConfig;
+    protected UIController _pauseController;
     private Vector3 _moveDirection;
     private Vector3 _moveRotation;
     private Quaternion _rotationPl;
@@ -42,19 +41,36 @@ public class PlayerControllerBase : MonoBehaviour,IPlayer
     private bool _isAttacking = false;
     private bool _isShildUp = false;
     #endregion
+    
+    [Inject]
+    private void Construct(AnimatorController animatorController, UIController uIController, HeailhBehaviour heailhBehaviour,
+        HeroConfig heroConfig, ConfigAllEnemys configAllEnemys, HealthPotionConfig healthPotionConfig, UIController uIController1)
+    {
+        _animController = animatorController;
+        _menuPauseController = uIController1;
+        _heailhBehaviour = heailhBehaviour;
+        _heroConfig = heroConfig;
+        _enemyConfig = configAllEnemys;
+        _healthPotionConfig = healthPotionConfig;
+        _pauseController = uIController1;
+    }
 
     #region Player Movement
+    
     public void OnMove(InputAction.CallbackContext value)
     {
         _moveDirection = value.ReadValue<Vector2>();
         
         _moveDirection.Normalize();
     }
-    public void PlayerMove(Vector3 move)
+    protected void PlayerMove(Vector3 move)
     {
+
+        var value = _heroConfig.MaxVerticalSpeed;
+        value = Math.Clamp(value, -_heroConfig.MaxVerticalSpeed, _heroConfig.MaxVerticalSpeed);
         string animName = move.x >= 0.125F || move.y >= 0.125F || move.x <= -0.125F || move.y <= -0.125F ? "WalkForwardBattle" : default;
         _animController.PlayAnimation(_animator,animName);
-        _rigidbody.AddRelativeForce(new Vector3(move.x * _heroConfig.Speed, 0, move.y * _heroConfig.Speed), ForceMode.VelocityChange);
+        _rigidbody.AddRelativeForce(move.x * _heroConfig.Speed, value , move.y * _heroConfig.Speed, ForceMode.VelocityChange);
         
         
     }
@@ -65,7 +81,7 @@ public class PlayerControllerBase : MonoBehaviour,IPlayer
         _rotationPl.Normalize();
 
     }
-    public void LookRotation(Quaternion rotate)
+    protected void LookRotation(Quaternion rotate)
     {
         _rigidbody.MoveRotation(_rigidbody.rotation * rotate.normalized);
 
@@ -110,22 +126,18 @@ public class PlayerControllerBase : MonoBehaviour,IPlayer
     #region For OnCollisionEnter methods
     protected void OnCollisionWithEnemy(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Pseudopod"))
-        {
-            var obj = collision.gameObject.GetComponentInParent<Enemy>().Type;
-            _currentHealth = _heailhBehaviour.RemoveHealth(_enemyConfig.GetEnemyWithType(obj).EnemyAttack, _currentHealth, _heroConfig.MaxHealh);
-        }
+        if (!collision.gameObject.CompareTag("Pseudopod")) return;
+        var obj = collision.gameObject.GetComponentInParent<Enemy>().Type;
+        _currentHealth = _heailhBehaviour.RemoveHealth(_enemyConfig.GetEnemyWithType(obj).EnemyAttack, _currentHealth, _heroConfig.MaxHealh);
     }
     #endregion
 
     #region For OnTriggerEnter Methods
     protected void OnTriggerMethod(Collider collider)
     {
-        if (collider.gameObject.CompareTag("HealthPotion"))
-        {
-            var obj = collider.gameObject.GetComponent<HealthPotion>().PotionType;
-            _currentHealth = _heailhBehaviour.AddHealth(_healthPotionConfig.GetPotionValue(obj).HealthRecover, _currentHealth, _heroConfig.MaxHealh); 
-        }
+        if (!collider.gameObject.CompareTag("HealthPotion")) return;
+        var obj = collider.gameObject.GetComponent<HealthPotion>().PotionType;
+        _currentHealth = _heailhBehaviour.AddHealth(_healthPotionConfig.GetPotionValue(obj).HealthRecover, _currentHealth, _heroConfig.MaxHealh);
     }
     #endregion
 }

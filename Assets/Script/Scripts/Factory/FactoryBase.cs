@@ -9,18 +9,25 @@ namespace Enemy_Factory
 {
     public class FactoryBase:MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _totalEnemyCountText;
-        
         [field: SerializeField] public List<Transform> _spawnEnemyPosition { get; private set; }
 
         [Inject] private ConfigAllEnemys _allEnemys;
         [Inject] private ObjectPool _pool;
         [Inject] private EnemyCounter _enemyCounter;
+        [Inject] private UIController _menuPauseController;
+        
 
         private int _maxEnemy;
+        protected TextMeshProUGUI _totalEnemyCountText;
 
-        public TextMeshProUGUI TotalEnemyCountText { get => _totalEnemyCountText; set => _totalEnemyCountText = value; }
-        public int TotalEnemyCount { get => _maxEnemy; }
+        [Inject]
+        private void Construct(ConfigAllEnemys configAllEnemys, ObjectPool objectPool, EnemyCounter enemyCounter, UIController uIController)
+        {
+            _allEnemys = configAllEnemys;
+            _pool = objectPool;
+            _enemyCounter = enemyCounter;
+            _menuPauseController = uIController;
+        }
 
         public GameObject CreateEnemy(EnemyTypes enemyTypes)
         {
@@ -29,9 +36,10 @@ namespace Enemy_Factory
 
         protected void Init()
         {
+            _totalEnemyCountText = _menuPauseController.TotalEnemyText;
             var value = Random.Range(0,_spawnEnemyPosition.Count);
             _enemyCounter.CountEnemy(_pool, ref _maxEnemy);
-            TotalEnemyCountText.text = $"TOTAL ENEMY IS  {_maxEnemy}";
+            _totalEnemyCountText.text = $"TOTAL ENEMY IS  {_maxEnemy}";
             for (int i = 0; i < _maxEnemy; i++)
             {
                 var obj = _pool.GetFromPool();

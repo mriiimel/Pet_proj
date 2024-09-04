@@ -10,7 +10,7 @@ namespace Object_Pool
 {
     public class ObjectPool:MonoBehaviour
     {
-        [Inject]private FactoryBase _enemyFactoryBase;
+        [Inject]private Factory _enemyFactoryBase;
         private Stack<GameObject> _pool;
         
         public ObjectPool()

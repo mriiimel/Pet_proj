@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class EnemyBase: MonoBehaviour,IEnemy
+public class EnemyBase: MonoBehaviour,IEnemy
 {
 
 }

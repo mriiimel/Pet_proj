@@ -1,6 +1,6 @@
 
 
-public class HeailhBehaviour 
+public interface IHeailhBehaviour 
 {
     public int AddHealth(int healthToAdd,int currentHealth,int maxHealth)
     {

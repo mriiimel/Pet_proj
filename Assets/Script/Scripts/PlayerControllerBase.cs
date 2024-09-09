@@ -1,3 +1,5 @@
+using Camera_Controller;
+using Cinemachine;
 using Enemy_Config;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ using Zenject;
 using Random = UnityEngine.Random;
 
 
-public class PlayerControllerBase : MonoBehaviour,IPlayer
+public class PlayerControllerBase : MonoBehaviour,IPlayer,IHeailhBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Animator _animator;
@@ -16,20 +18,22 @@ public class PlayerControllerBase : MonoBehaviour,IPlayer
     [SerializeField] private Collider _shildCollider;
     
     
+    
 
     #region Privet and protected fields
     protected TextMeshProUGUI _textMeshProUGUI;
     private AnimatorController _animController;
     private UIController _menuPauseController;
-    protected HeailhBehaviour _heailhBehaviour;
+    protected IHeailhBehaviour _heailhBehaviour;
     protected HeroConfig _heroConfig;
     protected ConfigAllEnemys _enemyConfig;
     protected HealthPotionConfig _healthPotionConfig;
     protected UIController _pauseController;
     private Vector3 _moveDirection;
-    private Vector3 _moveRotation;
     private Quaternion _rotationPl;
     protected int _currentHealth;
+    private CameraController _camera;
+    
     #endregion
 
     #region Public propertys
@@ -43,17 +47,20 @@ public class PlayerControllerBase : MonoBehaviour,IPlayer
     #endregion
     
     [Inject]
-    private void Construct(AnimatorController animatorController, UIController uIController, HeailhBehaviour heailhBehaviour,
-        HeroConfig heroConfig, ConfigAllEnemys configAllEnemys, HealthPotionConfig healthPotionConfig, UIController uIController1)
+    private void Construct(AnimatorController animatorController, UIController uIController,
+        HeroConfig heroConfig, ConfigAllEnemys configAllEnemys, HealthPotionConfig healthPotionConfig, UIController uIController1,
+        CameraController cameraController)
     {
         _animController = animatorController;
         _menuPauseController = uIController1;
-        _heailhBehaviour = heailhBehaviour;
         _heroConfig = heroConfig;
         _enemyConfig = configAllEnemys;
         _healthPotionConfig = healthPotionConfig;
         _pauseController = uIController1;
+        _camera = cameraController;
     }
+
+    
 
     #region Player Movement
     
@@ -65,27 +72,21 @@ public class PlayerControllerBase : MonoBehaviour,IPlayer
     }
     protected void PlayerMove(Vector3 move)
     {
-
         var value = _heroConfig.MaxVerticalSpeed;
         value = Math.Clamp(value, -_heroConfig.MaxVerticalSpeed, _heroConfig.MaxVerticalSpeed);
         string animName = move.x >= 0.125F || move.y >= 0.125F || move.x <= -0.125F || move.y <= -0.125F ? "WalkForwardBattle" : default;
         _animController.PlayAnimation(_animator,animName);
-        _rigidbody.AddRelativeForce(move.x * _heroConfig.Speed, value , move.y * _heroConfig.Speed, ForceMode.VelocityChange);
-        
-        
+        var axisX = _camera.Camera.transform.forward;
+        var axisY = _camera.Camera.transform.right;
+        Vector3 movement = move.x * axisY.normalized + move.y * axisX.normalized;
+        Vector3 val = new Vector3(movement.x,0,movement.z);
+        _rigidbody.MovePosition(transform.position + val * _heroConfig.Speed * Time.fixedDeltaTime);
+        if(move.magnitude != 0)
+        {
+            _rigidbody.transform.rotation = Quaternion.LookRotation(val);
+        }
     }
-    public void Look(InputAction.CallbackContext value)
-    {
-        _moveRotation = value.ReadValue<Vector2>();
-        _rotationPl = Quaternion.Euler(0f, _moveRotation.x * _heroConfig.RotationSpeed, 0f);
-        _rotationPl.Normalize();
-
-    }
-    protected void LookRotation(Quaternion rotate)
-    {
-        _rigidbody.MoveRotation(_rigidbody.rotation * rotate.normalized);
-
-    }
+    
     #endregion
 
     #region Player Behaviour

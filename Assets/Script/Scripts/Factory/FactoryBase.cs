@@ -9,12 +9,12 @@ namespace Enemy_Factory
 {
     public class FactoryBase:MonoBehaviour
     {
-        [field: SerializeField] public List<Transform> _spawnEnemyPosition { get; private set; }
+        [field: SerializeField] public Transform[] spawnEnemyPosition { get; private set; }
 
-        [Inject] private ConfigAllEnemys _allEnemys;
-        [Inject] private ObjectPool _pool;
-        [Inject] private EnemyCounter _enemyCounter;
-        [Inject] private UIController _menuPauseController;
+        private ConfigAllEnemys _allEnemys;
+        private ObjectPool _pool;
+        private EnemyCounter _enemyCounter;
+        private UIController _menuPauseController;
         
 
         private int _maxEnemy;
@@ -37,14 +37,15 @@ namespace Enemy_Factory
         protected void Init()
         {
             _totalEnemyCountText = _menuPauseController.TotalEnemyText;
-            var value = Random.Range(0,_spawnEnemyPosition.Count);
+            
             _enemyCounter.CountEnemy(_pool, ref _maxEnemy);
             _totalEnemyCountText.text = $"TOTAL ENEMY IS  {_maxEnemy}";
             for (int i = 0; i < _maxEnemy; i++)
             {
+                var value = Random.Range(0, spawnEnemyPosition.Length);
                 var obj = _pool.GetFromPool();
                 obj.SetActive(true);
-                obj.transform.position = _spawnEnemyPosition[value].position;
+                obj.transform.position = spawnEnemyPosition[value].position;
             }
         }
     }

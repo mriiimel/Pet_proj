@@ -16,6 +16,7 @@ public class PlayerController : PlayerControllerBase
         _currentHealth = _heroConfig.MaxHealh;
         _textMeshProUGUI = _pauseController.HeroHealthBarText;
         _textMeshProUGUI.text = _currentHealth.ToString();
+        
     }
 
 
@@ -24,12 +25,14 @@ public class PlayerController : PlayerControllerBase
         _textMeshProUGUI.text = _currentHealth.ToString();
         _rotation = RotationPl;
         _movement = MoveDirection;
+       
     }
 
     private void FixedUpdate()
     {
+       
         PlayerMove(_movement);
-        LookRotation(_rotation);
+        //LookRotation(_rotation);
         
     }
     private void OnCollisionEnter(Collision collision)

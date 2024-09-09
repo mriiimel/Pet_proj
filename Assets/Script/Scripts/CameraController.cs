@@ -1,11 +1,15 @@
 namespace Camera_Controller
 {
-    public class CameraController : CameraBase
+    public class CameraController : CameraControllerBase
     {
 
-        private void Update()
+        private void Start()
         {
             Init();
+        }
+        private void Update()
+        {
+            ToUpdate();
         }
 
     }

@@ -1,9 +1,31 @@
 using UnityEngine;
 
 
-public class Enemy : EnemyBase,IEnemy
+public class Enemy : EnemyControllerBase,IEnemy
 {
-    [field:SerializeField] public EnemyTypes Type { get; private set; }
-    
+    private void Start()
+    {
+        Test();
+    }
+    private void Update()
+    {
+        
+    }
+    private void FixedUpdate()
+    {
+        
+    }
+    private void LateUpdate()
+    {
+        
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
 
 }

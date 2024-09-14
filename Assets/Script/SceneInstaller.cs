@@ -1,6 +1,7 @@
 using Camera_Controller;
 using Enemy_Factory;
 using Object_Pool;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -12,17 +13,34 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] private UIController _menuPauseController;
     [SerializeField] private AnimatorController _animatorController;
     [SerializeField] private PlayerController _playerController;
-    //[SerializeField] private GameObject _playerPrefab;
     [SerializeField] private CameraController _cameraController;
-    //[SerializeField] private Transform _heroSpawn;
+    
     public override void InstallBindings()
     {
+        
         ObjectPoolBindings();
         FactoryBindings();
         PlayerBindings();
         UIBindings();
         AnimatorControllerBindings();
         CameraBindings();
+        EnemyBehaviourBindings();
+    }
+
+    private void EnemyBehaviourBindings()
+    {
+        Container.Bind<IEnemyBehaviour>().To<SimpleEnemyBehaviour>().AsCached();
+        
+        Container.Bind<IEnemyBehaviour>().To<WarriorEnemyBehaviour>().AsCached();
+        
+        Container.Bind<IEnemyBehaviour>().To<HeallerEnemyBehaviour>().AsCached();
+        
+        Container.Bind<IEnemyBehaviour>().To<BerserkEnemyBehaviour>().AsCached();
+        
+        Container.Bind<IEnemyBehaviour>().To<DebufferEnemyBehaviour>().AsCached();
+        
+        Container.Bind<IEnemyBehaviour>().To<BossEnemyBehaviour>().AsCached();
+        
     }
 
     private void CameraBindings()
@@ -52,9 +70,6 @@ public class SceneInstaller : MonoInstaller
 
     private void PlayerBindings()
     {
-        //PlayerController playerController = Container.
-        //    InstantiatePrefabForComponent<PlayerController>(_playerPrefab, _heroSpawn.position,Quaternion.identity,null);
-        //Container.Bind<PlayerController>().FromInstance(playerController).AsCached().NonLazy();
         Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
     }
 }

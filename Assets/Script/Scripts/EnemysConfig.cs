@@ -19,8 +19,6 @@ namespace Enemy_Config
 
         [field: SerializeField] public float EnemyAttackRange { get; private set; }
 
-        [field: SerializeField] public float EnemySpeed { get; private set; }
-
         [field: SerializeField] public float EnemyAttackSpeed { get; private set; }
 
 

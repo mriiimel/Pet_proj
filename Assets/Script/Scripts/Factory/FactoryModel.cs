@@ -7,26 +7,26 @@ using Zenject;
 
 namespace Enemy_Factory
 {
-    public class FactoryBase:MonoBehaviour
+    public class FactoryModel
     {
-        [field: SerializeField] public Transform[] spawnEnemyPosition { get; private set; }
 
-        private ConfigAllEnemys _allEnemys;
+        private Factory _factory;
+        [Inject]private ConfigAllEnemys _allEnemys;
         private ObjectPool _pool;
-        private EnemyCounter _enemyCounter;
-        private UIController _menuPauseController;
+        [Inject]private EnemyCounter _enemyCounter;
+        private UIController _uiController;
         
 
         private int _maxEnemy;
         protected TextMeshProUGUI _totalEnemyCountText;
 
-        [Inject]
-        private void Construct(ConfigAllEnemys configAllEnemys, ObjectPool objectPool, EnemyCounter enemyCounter, UIController uIController)
+        
+        public FactoryModel(Factory factory, ObjectPool objectPool, EnemyCounter enemyCounter, UIController uIController)
         {
-            _allEnemys = configAllEnemys;
+            _factory = factory;
             _pool = objectPool;
             _enemyCounter = enemyCounter;
-            _menuPauseController = uIController;
+            _uiController = uIController;
         }
 
         public GameObject CreateEnemy(EnemyTypes enemyTypes)
@@ -36,16 +36,16 @@ namespace Enemy_Factory
 
         protected void Init()
         {
-            _totalEnemyCountText = _menuPauseController.TotalEnemyText;
+            _totalEnemyCountText = _uiController.TotalEnemyText;
             
             _enemyCounter.CountEnemy(_pool, ref _maxEnemy);
             _totalEnemyCountText.text = $"TOTAL ENEMY IS  {_maxEnemy}";
             for (int i = 0; i < _maxEnemy; i++)
             {
-                var value = Random.Range(0, spawnEnemyPosition.Length);
+                var value = Random.Range(0, _factory.SpawnEnemyPosition.Length);
                 var obj = _pool.GetFromPool();
                 obj.SetActive(true);
-                obj.transform.position = spawnEnemyPosition[value].position;
+                obj.transform.position = _factory.SpawnEnemyPosition[value].position;
             }
         }
     }

@@ -10,15 +10,15 @@ namespace Camera_Controller
         [SerializeField] private Camera _camera;
         [SerializeField] private CinemachineFreeLook _vCam;
 
-        private PlayerController _playerController;
+        private Player _playerController;
 
         public Camera Camera { get => _camera; private set => _camera = value; }
         public CinemachineFreeLook VCam { get => _vCam; private set => _vCam = value; }
 
         public Vector3 _cameraMovement { get; set; }
 
-        [Inject] 
-        private void Construct(PlayerController playerControllerBase)
+        [Inject]
+        private void Construct(Player playerControllerBase)
         {
             _playerController = playerControllerBase;
         }

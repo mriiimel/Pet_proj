@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _heroHealthBarText;
     [SerializeField] private TextMeshProUGUI _totalEnemyText;
     
-    PlayerController _playerController;
+    Player _playerController;
     
     
     
@@ -20,11 +20,11 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI HeroHealthBarText { get => _heroHealthBarText; set => _heroHealthBarText = value; }
     public TextMeshProUGUI TotalEnemyText { get => _totalEnemyText; set => _totalEnemyText = value; }
     
-    [Inject]
-    private void Construct(PlayerController playerControllerBase)
-    {
-        _playerController = playerControllerBase;
-    }
+    //[Inject]
+    //private void Construct(Player playerControllerBase)
+    //{
+    //    _playerController = playerControllerBase;
+    //}
     public  void OnPause(InputAction.CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started)

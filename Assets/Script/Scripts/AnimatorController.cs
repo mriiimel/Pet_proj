@@ -6,4 +6,8 @@ public class AnimatorController :MonoBehaviour
     {
         animator.Play(animationName);
     }
+    public void PlayAnimation(Animator animator,string valueName, float speed)
+    {
+        animator.SetFloat(valueName,speed);
+    }
 }

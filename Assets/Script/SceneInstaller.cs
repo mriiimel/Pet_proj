@@ -3,73 +3,84 @@ using Enemy_Factory;
 using Object_Pool;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 
 public class SceneInstaller : MonoInstaller
 {
     [SerializeField] private Factory _enemyFactory;
-    [SerializeField] private ObjectPool _objectPool;
-    [SerializeField] private UIController _menuPauseController;
+    [SerializeField] private EnemyCounter _enemyCounter;
+    [SerializeField] private UIController _uiController;
     [SerializeField] private AnimatorController _animatorController;
-    [SerializeField] private PlayerController _playerController;
     [SerializeField] private CameraController _cameraController;
+    [SerializeField] private GameObject _playerGameObject;
+    [SerializeField] private Transform _playerSpawn;
     
+
+    private Player _player;
+    private PlayerController _playerController;
+    private PlayerModel _playerModel;
+    private FactoryModel _factoryModel;
+    private ObjectPool _objectPool;
+    private PlayerInput _playerInput;
+
     public override void InstallBindings()
     {
         
+        CameraBindings();
         ObjectPoolBindings();
         FactoryBindings();
-        PlayerBindings();
+        ObjectPoolBindings();
         UIBindings();
         AnimatorControllerBindings();
-        CameraBindings();
-        EnemyBehaviourBindings();
+        PlayerBindings();
+        PlayerInputBindings();
+
     }
 
-    private void EnemyBehaviourBindings()
+    private void PlayerInputBindings()
     {
-        Container.Bind<IEnemyBehaviour>().To<SimpleEnemyBehaviour>().AsCached();
-        
-        Container.Bind<IEnemyBehaviour>().To<WarriorEnemyBehaviour>().AsCached();
-        
-        Container.Bind<IEnemyBehaviour>().To<HeallerEnemyBehaviour>().AsCached();
-        
-        Container.Bind<IEnemyBehaviour>().To<BerserkEnemyBehaviour>().AsCached();
-        
-        Container.Bind<IEnemyBehaviour>().To<DebufferEnemyBehaviour>().AsCached();
-        
-        Container.Bind<IEnemyBehaviour>().To<BossEnemyBehaviour>().AsCached();
-        
+        _playerInput = new PlayerInput();
+        Container.Bind<PlayerInput>().FromInstance( _playerInput );
     }
 
     private void CameraBindings()
     {
-        Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle();
+        Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle().NonLazy();
     }
 
     private void AnimatorControllerBindings()
     {
-        Container.Bind<AnimatorController>().FromInstance(_animatorController).AsSingle();
+        Container.Bind<AnimatorController>().FromInstance(_animatorController).AsSingle().NonLazy();
     }
 
     private void UIBindings()
     {
-        Container.Bind<UIController>().FromInstance(_menuPauseController).AsSingle();
+        Container.Bind<UIController>().FromInstance(_uiController).AsSingle().NonLazy();
     }
 
     private void ObjectPoolBindings()
     {
-        Container.Bind<ObjectPool>().FromInstance(_objectPool).AsCached();
+        
     }
 
     private void FactoryBindings()
     {
-        Container.Bind<Factory>().FromInstance(_enemyFactory).AsSingle();
+        _factoryModel = new(_enemyFactory,_objectPool,_enemyCounter,_uiController);
+        Container.Bind<FactoryModel>().FromInstance(_factoryModel).AsSingle().NonLazy();
+        Container.Bind<Factory>().FromInstance(_enemyFactory).AsSingle().NonLazy();
     }
 
     private void PlayerBindings()
     {
-        Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
+        _player = Container.InstantiatePrefabForComponent<Player>(_playerGameObject, 
+            _playerSpawn.position, 
+            Quaternion.identity, null);
+        Container.Bind<Player>().FromInstance(_player).AsSingle();
+        Container.BindInterfacesTo<PlayerController>().AsSingle();
+        Container.Bind<PlayerModel>().AsSingle();
+
     }
+    
 }

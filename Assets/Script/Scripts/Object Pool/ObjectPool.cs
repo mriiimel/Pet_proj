@@ -8,9 +8,9 @@ using ModestTree;
 
 namespace Object_Pool
 {
-    public class ObjectPool:MonoBehaviour
+    public class ObjectPool: MonoBehaviour
     {
-        [Inject]private Factory _enemyFactoryBase;
+        [Inject]private FactoryModel _enemyFactoryBase;
         private Stack<GameObject> _pool;
         
         public ObjectPool()
@@ -33,12 +33,12 @@ namespace Object_Pool
 
         public void AddToPool(EnemyTypes enemyTyps)
         {
-            
+
             var gameObj = _enemyFactoryBase.CreateEnemy(enemyTyps);
             gameObj.gameObject.SetActive(false);
             var obj = Instantiate(gameObj);
             _pool.Push(obj);
-               
+
         }
     }
 }

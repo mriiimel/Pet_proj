@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -125,6 +126,11 @@ public class PlayerController: ITickable,IInitializable,IDisposable
     }
     #endregion
 
+    private void Restart(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+    }
+
     public void Tick()
     {
         m_MoveDirection = _onMove.ReadValue<Vector2>();
@@ -136,6 +142,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable
     {
         
         _onMove = _playerInput.Player.Move;
+        _playerInput.Player.InvokeMenuPause.performed += Restart;
         _playerInput.Player.Fire.performed += OnAttack;
         _playerInput.Player.Block.performed += OnBlock;
         _playerInput.Player.Enable();
@@ -147,6 +154,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable
         _onMove?.Disable();
         _playerInput.Player.Fire.Disable();
         _playerInput.Player.Block.Disable();
+        _playerInput.Player.InvokeMenuPause.Disable();
     }
     
 }

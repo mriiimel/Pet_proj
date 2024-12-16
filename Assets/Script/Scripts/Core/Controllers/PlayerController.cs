@@ -1,8 +1,6 @@
-using Camera_Controller;
 using Enemy_Config;
 using System;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,9 +10,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerController: ITickable,IInitializable,IDisposable
 {
-    public Action _playerMove;
-    
-    private Player _player;
+    private PlayerView _player;
     private Rigidbody _rigidbody;
     private Animator _animator;
     private AnimatorController _animController;
@@ -26,20 +22,22 @@ public class PlayerController: ITickable,IInitializable,IDisposable
     private ConfigAllEnemys _enemyConfig;
     private HealthPotionConfig _healthPotionConfig;
     private int _currentHealth;
-    private CameraController _camera;
+    private CameraView _camera;
     private Vector3 m_MoveDirection;
     private PlayerInput _playerInput;
     private InputAction _onMove;
-    
+    private PlayerModel _playerModel;
+    private float _attackSpeedMultiplier = 1f;
     #region Flags
     private bool _isAttacking = false;
     private bool _isShildUp = false;
     #endregion
 
 
-    public PlayerController(Player player,PlayerModel playerModel,PlayerInput inputActions)
+    public PlayerController(PlayerView player,PlayerModel playerModel,PlayerInput inputActions)
     {
         _player = player;
+        _playerModel = playerModel;
         _rigidbody = playerModel.Rigidbody;
         _animator = playerModel.Animator;
         _animController = playerModel.AnimControllers;
@@ -57,8 +55,16 @@ public class PlayerController: ITickable,IInitializable,IDisposable
 
 
     #region Player Movement
+    public void IncreaseAttackSpeed(float amount)
+    {
+        _attackSpeedMultiplier += amount;
+    }
 
-    
+    public void DecreaseAttackSpeed(float amount)
+    {
+        _attackSpeedMultiplier = Mathf.Max(0.1f, _attackSpeedMultiplier - amount); // чтобы скорость не была отрицательной
+    }
+
     private void PlayerMove(Vector3 move)
     {
         _animController.PlayAnimation(_animator,"Value",move.magnitude);
@@ -89,7 +95,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable
 
         var animationClip = _animator.GetCurrentAnimatorClipInfo(0)[0].clip;
         
-        await Task.Delay(TimeSpan.FromSeconds(animationClip.length));
+        await Task.Delay(TimeSpan.FromSeconds(animationClip.length / _attackSpeedMultiplier));
         _isAttacking = false;
         _weaponCollider.enabled = false;
 
@@ -126,10 +132,8 @@ public class PlayerController: ITickable,IInitializable,IDisposable
     }
     #endregion
 
-    private void Restart(InputAction.CallbackContext context)
-    {
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
-    }
+    
+    
 
     public void Tick()
     {
@@ -140,9 +144,8 @@ public class PlayerController: ITickable,IInitializable,IDisposable
 
     public void Initialize()
     {
-        
+        IncreaseAttackSpeed(0.9f);
         _onMove = _playerInput.Player.Move;
-        _playerInput.Player.InvokeMenuPause.performed += Restart;
         _playerInput.Player.Fire.performed += OnAttack;
         _playerInput.Player.Block.performed += OnBlock;
         _playerInput.Player.Enable();
@@ -154,7 +157,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable
         _onMove?.Disable();
         _playerInput.Player.Fire.Disable();
         _playerInput.Player.Block.Disable();
-        _playerInput.Player.InvokeMenuPause.Disable();
+        
     }
     
 }

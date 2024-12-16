@@ -1,6 +1,5 @@
-namespace Camera_Controller
-{
-    public class CameraController : CameraControllerBase
+
+    public class CameraView : CameraControllerBase
     {
 
         private void Start()
@@ -13,4 +12,4 @@ namespace Camera_Controller
         }
 
     }
-}
+

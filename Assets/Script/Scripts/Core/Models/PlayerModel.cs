@@ -1,6 +1,7 @@
-using Camera_Controller;
 using Enemy_Config;
 using UnityEngine;
+using Zenject;
+using Zenject.SpaceFighter;
 
 
 public class PlayerModel
@@ -11,8 +12,8 @@ public class PlayerModel
     private HealthPotionConfig _healthPotionConfig;
     private Animator _animator;
     private AnimatorController _animController;
-    private UIController _pauseController;
-    private CameraController _camera;
+    private UIController _uiController;
+    private CameraView _camera;
     private Rigidbody _rigidbody;
     private Collider _weaponCollider;
     private Collider _shealdCollider;
@@ -25,33 +26,31 @@ public class PlayerModel
     public HealthPotionConfig HealthPotionConfigs { get => _healthPotionConfig; private set => _healthPotionConfig = value; }
     public Animator Animator { get => _animator; set => _animator = value; }
     public AnimatorController AnimControllers { get => _animController; private set => _animController = value; }
-    public UIController PauseControllers { get => _pauseController; private set => _pauseController = value; }
-    public CameraController Cameras { get => _camera; private set => _camera = value; }
+    public UIController ControllerUI { get => _uiController; private set => _uiController = value; }
+    public CameraView Cameras { get => _camera; private set => _camera = value; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
     public Collider WeaponCollider { get => _weaponCollider; set => _weaponCollider = value; }
     public Collider ShealdCollider { get => _shealdCollider; set => _shealdCollider = value; }
     public Vector3 MoveDirections { get => _moveDirection; set => _moveDirection = value; }
     public Quaternion RotationPls { get => _rotationPl; set => _rotationPl = value; }
     public int CurrentHealths { get => _currentHealth; set => _currentHealth = value; }
-    
 
-    public PlayerModel(Player player, AnimatorController animatorController
-        , UIController uIController , CameraController cameraController)
+
+
+    public PlayerModel(HeroConfig heroConfig, ConfigAllEnemys configAllEnemys, HealthPotionConfig healthPotionConfig
+        , AnimatorController animatorController,UIController uIController,
+        CameraView cameraController,PlayerView player)
     {
-        _heroConfig = player.HeroConfig;
-        _enemyConfig = player.ConfigAllEnemys;
-        _healthPotionConfig = player.HealthPotionConfig;
+        _heroConfig = heroConfig;
+        _enemyConfig = configAllEnemys;
+        _healthPotionConfig = healthPotionConfig;
         _animator = player.PlayerAnimator;
         _animController = animatorController;
-        _pauseController = uIController;
+        _uiController = uIController;
         _camera = cameraController;
         _rigidbody = player.PlayerRb;
         _weaponCollider = player.WeaponCollider;
         _shealdCollider = player.ShealdCollider;
     }
-   
-
-    
-
     
 }

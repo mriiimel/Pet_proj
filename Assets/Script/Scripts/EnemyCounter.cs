@@ -20,7 +20,7 @@ public class EnemyCounter : ScriptableObject
             for(int j = 0; j < obj.EnemyCount; j++)
             {
                 maxEnemy++;
-                objectPool.AddToPool(obj.EnemyType);
+                //objectPool.AddToPool(obj.EnemyType);
             }
         }
     }

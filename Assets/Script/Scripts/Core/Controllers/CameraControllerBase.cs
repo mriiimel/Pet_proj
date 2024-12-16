@@ -3,24 +3,23 @@ using Cinemachine;
 using Zenject;
 using UnityEngine.InputSystem;
 
-namespace Camera_Controller
-{
+
     public class CameraControllerBase : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
         [SerializeField] private CinemachineFreeLook _vCam;
 
-        private Player _playerController;
+        private PlayerView _player;
 
         public Camera Camera { get => _camera; private set => _camera = value; }
         public CinemachineFreeLook VCam { get => _vCam; private set => _vCam = value; }
 
-        public Vector3 _cameraMovement { get; set; }
+        public Vector3 _cameraMovement;
 
         [Inject]
-        private void Construct(Player playerControllerBase)
+        private void Construct(PlayerView playerController)
         {
-            _playerController = playerControllerBase;
+            _player = playerController;
         }
 
         public void CameraLook(InputAction.CallbackContext context)
@@ -31,15 +30,15 @@ namespace Camera_Controller
         protected void Init()
         {
             
-            _vCam.LookAt = _playerController.transform;
-            _vCam.Follow = _playerController.transform;
+            _vCam.LookAt = _player.transform;
+            _vCam.Follow = _player.transform;
         }
 
         protected void ToUpdate()
         {
-            _playerController.transform.Rotate(new Vector3(0,_cameraMovement.x,0),Space.World);
+            _player.transform.Rotate(new Vector3(0,_cameraMovement.x,0),Space.World);
         }
 
         
     }
-}
+

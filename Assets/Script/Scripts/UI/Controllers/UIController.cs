@@ -7,17 +7,17 @@ using Zenject;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private GameObject _menu;
-    [SerializeField] private TextMeshProUGUI _heroHealthBarText;
+    [SerializeField] private TextMeshProUGUI _transformToTextDebug;
     [SerializeField] private TextMeshProUGUI _totalEnemyText;
     
-    Player _playerController;
+    PlayerView _playerController;
     
     
     
     private bool _onPaused = false;
 
     public bool OnPaused { get => _onPaused; set => _onPaused = value; }
-    public TextMeshProUGUI HeroHealthBarText { get => _heroHealthBarText; set => _heroHealthBarText = value; }
+    public TextMeshProUGUI TransformToTextDebug { get => _transformToTextDebug; set => _transformToTextDebug = value; }
     public TextMeshProUGUI TotalEnemyText { get => _totalEnemyText; set => _totalEnemyText = value; }
     
     //[Inject]

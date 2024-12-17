@@ -11,7 +11,7 @@ namespace Enemy_Config
         public  Enemy Enemys;
 
 
-        [field: SerializeField] public int EnemyHealth { get; private set; }
+        [field: SerializeField] public float EnemyHealth { get; private set; }
 
         [field: SerializeField] public int EnemyAttack { get; private set; }
 

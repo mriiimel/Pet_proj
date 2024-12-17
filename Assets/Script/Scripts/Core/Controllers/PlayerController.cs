@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -94,7 +93,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable
         _animController.PlayAnimation(_animator, animationName);
 
         var animationClip = _animator.GetCurrentAnimatorClipInfo(0)[0].clip;
-        
+        await Task.Delay(TimeSpan.FromSeconds(animationClip.length / _attackSpeedMultiplier));
         await Task.Delay(TimeSpan.FromSeconds(animationClip.length / _attackSpeedMultiplier));
         _isAttacking = false;
         _weaponCollider.enabled = false;
@@ -108,6 +107,8 @@ public class PlayerController: ITickable,IInitializable,IDisposable
         _shildCollider.enabled = true;
         _animController.PlayAnimation(_animator, "Defend");
         var clip = _animator.GetCurrentAnimatorClipInfo(0)[0].clip;
+        await Task.Delay(TimeSpan.FromSeconds(clip.length / 2));
+        
         await Task.Delay(TimeSpan.FromSeconds(clip.length));
         _shildCollider.enabled = false;
         _isShildUp = false;

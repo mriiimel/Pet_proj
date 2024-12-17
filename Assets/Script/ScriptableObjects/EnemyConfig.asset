@@ -20,7 +20,6 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 1
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 2
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 2
     typeOfAttack: 0
@@ -29,7 +28,6 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 5
     <EnemyDefence>k__BackingField: 2
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 2
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 3
     typeOfAttack: 0
@@ -38,7 +36,6 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 4
     <EnemyDefence>k__BackingField: 3
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 4
     typeOfAttack: 0
@@ -47,7 +44,6 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 5
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 5
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 5
     typeOfAttack: 0
@@ -56,16 +52,14 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 20
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 2
     <EnemyAttackSpeed>k__BackingField: 2
   - enemyTypes: 6
     typeOfAttack: 0
     Enemys: {fileID: 2133431079791280690, guid: e396b2c9effcfa849995ea401eef2ce7, type: 3}
-    <EnemyHealth>k__BackingField: 100
+    <EnemyHealth>k__BackingField: 100000
     <EnemyAttack>k__BackingField: 10
     <EnemyDefence>k__BackingField: 2
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 7
     typeOfAttack: 1
@@ -74,7 +68,6 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 30
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 7
-    <EnemySpeed>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 8
     typeOfAttack: 1
@@ -83,7 +76,6 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 15
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 5
-    <EnemySpeed>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
   - enemyTypes: 9
     typeOfAttack: 0
@@ -92,5 +84,4 @@ MonoBehaviour:
     <EnemyAttack>k__BackingField: 30
     <EnemyDefence>k__BackingField: 5
     <EnemyAttackRange>k__BackingField: 1
-    <EnemySpeed>k__BackingField: 2
     <EnemyAttackSpeed>k__BackingField: 2

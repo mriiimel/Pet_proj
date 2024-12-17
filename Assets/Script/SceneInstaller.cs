@@ -11,26 +11,34 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] private UIController _uiController;
     [SerializeField] private AnimatorController _animatorController;
     [SerializeField] private CameraView _cameraController;
+    [SerializeField] private Enemy _enemy;
     
     private FactoryModel _factoryModel;
     private ObjectPool _objectPool;
     private PlayerView _player;
+    private EnemyModel _enemyModel;
+    private EnemyController _enemyController;
 
     public override void InstallBindings()
     {
-        
+
         CameraBindings();
         ObjectPoolBindings();
         FactoryBindings();
         UIBindings();
         AnimatorControllerBindings();
         PlayerBindings();
-
-
+        EnemyBindings();
 
     }
 
-    
+    private void EnemyBindings()
+    {
+        Container.Bind<Enemy>().FromInstance(_enemy).AsSingle();
+        Container.Bind<EnemyModel>().AsSingle().WithArguments(_enemy);
+        Container.BindInterfacesAndSelfTo<EnemyController>().AsSingle();
+    }
+
 
     private void CameraBindings()
     {

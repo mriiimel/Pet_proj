@@ -706,11 +706,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5759325392413212621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da49269cf805cf24da000c58cddf546b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6da6458648ab32842afb4a0f5fc68512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
-  _vCam: {fileID: 6633896648408451778}
+  _camera: {fileID: 41932398641319050, guid: 2783ad2c50c8f564f997725ccb97320d, type: 3}
+  _vCam: {fileID: 0}
+  _cameraMovement: {x: 0, y: 0, z: 0}
 --- !u!1 &8865821792258099644
 GameObject:
   m_ObjectHideFlags: 3

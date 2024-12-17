@@ -1,14 +1,15 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Zenject;
 
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private GameObject _menu;
-    [SerializeField] private TextMeshProUGUI _transformToTextDebug;
     [SerializeField] private TextMeshProUGUI _totalEnemyText;
+    [SerializeField] private Image _enemyHealthBar;
     
     PlayerView _playerController;
     
@@ -17,9 +18,10 @@ public class UIController : MonoBehaviour
     private bool _onPaused = false;
 
     public bool OnPaused { get => _onPaused; set => _onPaused = value; }
-    public TextMeshProUGUI TransformToTextDebug { get => _transformToTextDebug; set => _transformToTextDebug = value; }
-    public TextMeshProUGUI TotalEnemyText { get => _totalEnemyText; set => _totalEnemyText = value; }
     
+    public TextMeshProUGUI TotalEnemyText { get => _totalEnemyText; set => _totalEnemyText = value; }
+    public Image EnemyHealthBar { get => _enemyHealthBar; set => _enemyHealthBar = value; }
+
     //[Inject]
     //private void Construct(Player playerControllerBase)
     //{

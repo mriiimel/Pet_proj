@@ -8,15 +8,19 @@ namespace Enemy_Config
     public class ConfigAllEnemys : ScriptableObject
     {
         [SerializeField]private List<EnemysConfig> EnemysConfigs;
-        
-        public EnemysConfig GetEnemyWithType(EnemyTypes enemyTypes)
+
+        public List<EnemysConfig> EnemysConfigsList { get => EnemysConfigs; }
+
+        public EnemysConfig GetEnemy(EnemyTypes enemyTypes)
         {
             
             for (int i = 0; i < EnemysConfigs.Count; i++)
             {
                 var obj = EnemysConfigs[i];
-                if (enemyTypes == obj.enemyTypes)
+                if(obj.enemyTypes == enemyTypes)
+                {
                     return obj;
+                }
                 
             }
             return null;

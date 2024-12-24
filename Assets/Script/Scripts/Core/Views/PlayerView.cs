@@ -1,7 +1,4 @@
-using Enemy_Config;
 using UnityEngine;
-using Zenject;
-
 
 
 public class PlayerView : MonoBehaviour
@@ -17,4 +14,13 @@ public class PlayerView : MonoBehaviour
     public Collider ShealdCollider { get => _shealdCollider; private set => _shealdCollider = value; }
     public Animator PlayerAnimator { get => _playerAnimator; private set => _playerAnimator = value; }
     
+    public void EnableWeaponCollider(bool IsEnabled)
+    {
+        _weaponCollider.enabled = IsEnabled;
+    }
+
+    public void EnableShealdCollider(bool IsEnabled)
+    {
+        _shealdCollider.enabled = IsEnabled;
+    }
 }

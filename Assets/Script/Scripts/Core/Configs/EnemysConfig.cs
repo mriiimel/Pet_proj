@@ -8,7 +8,7 @@ namespace Enemy_Config
     {
         public EnemyTypes enemyTypes;
         public TypeOfAttack typeOfAttack;
-        public  Enemy Enemys;
+        public EnemyView Enemys;
 
 
         [field: SerializeField] public float EnemyHealth { get; private set; }

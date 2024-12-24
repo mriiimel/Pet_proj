@@ -1,4 +1,4 @@
-using Enemy_Factory;
+using Enemy_Config;
 using Object_Pool;
 using UnityEngine;
 using Zenject;
@@ -8,52 +8,57 @@ public class SceneInstaller : MonoInstaller
 {
     [SerializeField] private Factory _enemyFactory;
     [SerializeField] private EnemyCounter _enemyCounter;
-    [SerializeField] private UIController _uiController;
-    [SerializeField] private AnimatorController _animatorController;
-    [SerializeField] private CameraView _cameraController;
-    [SerializeField] private Enemy _enemy;
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private UiView _uiView;
+    [SerializeField] private GameObject _enemyHealthBar;
+    
+    
+
     
     private FactoryModel _factoryModel;
     private ObjectPool _objectPool;
     private PlayerView _player;
     private EnemyModel _enemyModel;
     private EnemyController _enemyController;
+    private ConfigAllEnemys _enemyConfig;
 
     public override void InstallBindings()
     {
-
-        CameraBindings();
+        UIBindings();
         ObjectPoolBindings();
         FactoryBindings();
-        UIBindings();
-        AnimatorControllerBindings();
+        CameraBindings();
         PlayerBindings();
         EnemyBindings();
-
+        Container.Bind<Canvas>().FromInstance(_canvas).AsSingle();
+        Container.Bind<GameObject>().FromInstance(_enemyHealthBar).AsTransient() ;
+        
     }
 
     private void EnemyBindings()
     {
-        Container.Bind<Enemy>().FromInstance(_enemy).AsSingle();
-        Container.Bind<EnemyModel>().AsSingle().WithArguments(_enemy);
-        Container.BindInterfacesAndSelfTo<EnemyController>().AsSingle();
+        Container.Bind<EnemyModel>().AsTransient();
+        Container.Bind<EnemyController>().AsTransient();
+        Container.Bind<EnemyView>().FromComponentInHierarchy().AsTransient();
     }
 
 
     private void CameraBindings()
     {
-        Container.Bind<CameraView>().FromInstance(_cameraController).AsSingle().NonLazy();
+        CameraView camera = ProjectContext.Instance.Container.Resolve<CameraView>();
+        Container.Bind<CameraModel>().AsSingle();
+        Container.BindInterfacesAndSelfTo<CameraController>().AsSingle().WithArguments(camera);
+        
         
     }
 
-    private void AnimatorControllerBindings()
-    {
-        Container.Bind<AnimatorController>().FromInstance(_animatorController).AsSingle().NonLazy();
-    }
+   
 
     private void UIBindings()
     {
-        Container.Bind<UIController>().FromInstance(_uiController).AsSingle().NonLazy();
+        Container.Bind<UiView>().FromInstance(_uiView).AsCached();
+        Container.Bind<UIModel>().AsCached();
+        Container.BindInterfacesAndSelfTo<UIController>().AsCached();
     }
 
     private void ObjectPoolBindings()
@@ -63,7 +68,12 @@ public class SceneInstaller : MonoInstaller
 
     private void FactoryBindings()
     {
-        Container.Bind<Factory>().FromInstance(_enemyFactory).AsSingle().NonLazy();
+        Container.Bind<Factory>().FromInstance(_enemyFactory).AsSingle();
+        Container.Bind<PlayerFactory>().AsSingle();
+        Container.Bind<EnemyFactory>().AsSingle();
+        Container.Bind<FactoryModel>().AsSingle();
+        Container.BindInterfacesAndSelfTo<FactoryController>().AsSingle();
+        
         
     }
 
@@ -71,7 +81,7 @@ public class SceneInstaller : MonoInstaller
     {
         _player = ProjectContext.Instance.Container.Resolve<PlayerView>();
         Container.Bind<PlayerInput>().AsSingle();
-        Container.Bind<PlayerModel>().AsSingle().WithArguments(_player);
+        Container.Bind<PlayerModel>().AsSingle();
         Container.BindInterfacesAndSelfTo<PlayerController>().AsSingle().WithArguments(_player);
         
     }

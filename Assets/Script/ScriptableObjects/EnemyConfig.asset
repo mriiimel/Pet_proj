@@ -80,7 +80,7 @@ MonoBehaviour:
   - enemyTypes: 9
     typeOfAttack: 0
     Enemys: {fileID: 3412107236808276165, guid: 9d281fe4ad81da247894a767cf7ebd1c, type: 3}
-    <EnemyHealth>k__BackingField: 250
+    <EnemyHealth>k__BackingField: 1250
     <EnemyAttack>k__BackingField: 30
     <EnemyDefence>k__BackingField: 5
     <EnemyAttackRange>k__BackingField: 1

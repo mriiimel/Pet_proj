@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf06c99e7665de341b6f71fde2277c44, type: 3}
   m_Name: HeroConfig
   m_EditorClassIdentifier: 
-  <MaxHealh>k__BackingField: 1000
-  <Damage>k__BackingField: 100
-  <Speed>k__BackingField: 5
-  <MaxVerticalSpeed>k__BackingField: 0.09
-  <RotationSpeed>k__BackingField: 0.03
-  <CritChance>k__BackingField: 15
+  heroConfigs:
+  - PlayerType: 0
+    Player: {fileID: 3492089922635376533, guid: d1939d2036f56a741966d66f4934e6e7, type: 3}
+    MaxHealth: 1000
+    Damage: 100
+    CritChance: 15
+    Speed: 5
+    RotationSpeed: 3
+    AttackSpeed: 0.3

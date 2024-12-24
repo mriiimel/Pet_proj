@@ -1,28 +1,21 @@
-﻿using UnityEngine;
+﻿using Enemy_Config;
+using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 
-namespace Enemy_Factory
+
+public class Factory : MonoBehaviour
 {
-    public class Factory: MonoBehaviour
-    {
-        [field: SerializeField] public Transform[] SpawnEnemyPosition { get; private set; }
-        DiContainer container;
+    [SerializeField] private  Transform[] _enemySpawn;
+    [SerializeField] private  Transform _heroSpawn;
 
-        public Transform spawn;
-        private PlayerView player;
-        [Inject]
-        private void Construct(DiContainer diContainer)
-        {
-            container = diContainer;
-        }
-        private void Start()
-        {
-            player = container.Resolve<PlayerView>();
-            player.transform.position = spawn.transform.position;
+    private FactoryController _factoryController;
+    private DiContainer _container;
+    public Transform[] EnemySpawn => _enemySpawn;
 
-        }
-
-        
-    }
+    public Transform HeroSpawn => _heroSpawn;
+    
+    
 }
+

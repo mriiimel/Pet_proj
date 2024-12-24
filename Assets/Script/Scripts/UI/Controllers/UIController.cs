@@ -5,58 +5,51 @@ using UnityEngine.UI;
 using Zenject;
 
 
-public class UIController : MonoBehaviour
+public class UIController : IInitializable,ITickable
 {
-    [SerializeField] private GameObject _menu;
-    [SerializeField] private TextMeshProUGUI _totalEnemyText;
-    [SerializeField] private Image _enemyHealthBar;
+    private UiView _view;
+    private Camera _camera;
+    public UIController(UiView uiView,Camera camera)
+    {
+        _view = uiView;
+        _camera = camera;
+    }
     
-    PlayerView _playerController;
     
     
     
-    private bool _onPaused = false;
+    
+    
+    
+    
 
-    public bool OnPaused { get => _onPaused; set => _onPaused = value; }
     
-    public TextMeshProUGUI TotalEnemyText { get => _totalEnemyText; set => _totalEnemyText = value; }
-    public Image EnemyHealthBar { get => _enemyHealthBar; set => _enemyHealthBar = value; }
-
-    //[Inject]
-    //private void Construct(Player playerControllerBase)
-    //{
-    //    _playerController = playerControllerBase;
-    //}
     public  void OnPause(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
-        {
-            
-            
-            if (!_onPaused)
-            {
-                Paused();
-            }
-            else
-            {
-                Resume();
-            }
-        }
+        
     }
 
     private void Paused()
     {
         
-        _playerController.enabled = false;
-        _menu.SetActive(true);
-        _onPaused = true;
+        
+        
     }
     public void Resume()
     {
         
-        _playerController.enabled = true;
-        _menu.SetActive(false);
-        _onPaused = false;
+        
+        
     }
 
+    public void Initialize()
+    {
+        _view.Canvas.worldCamera = _camera;
+        _view.Canvas.planeDistance = 1;
+    }
+
+    public void Tick()
+    {
+        
+    }
 }

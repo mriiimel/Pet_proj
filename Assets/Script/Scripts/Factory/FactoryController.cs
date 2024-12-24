@@ -1,69 +1,36 @@
-using Enemy_Config;
-using Enemy_Factory;
-using Object_Pool;
-using TMPro;
-using UnityEngine;
+using Zenject;
 
-public class FactoryController 
+
+public class FactoryController: ITickable,IInitializable
 {
-    private readonly Factory _factory;
     private readonly FactoryModel _factoryModel;
-    private readonly ConfigAllEnemys _configAllEnemys;
-    private readonly ObjectPool _objectPool;
-    private readonly EnemyCounter _enemyCounter;
-    private readonly UIController _uIController;
-    private TextMeshProUGUI _totalEnemyCount;
-    private int _maxEnemy;
+    private DiContainer _container;
+    private Factory _factory;
+    private PlayerFactory _playerFactory;
+    private EnemyFactory _enemyFactory;
+    private EnemyModel _enemyModel;
+    private EnemyController _enemyController;
+    private PlayerView _playerView;
     
-    
-    public FactoryController(FactoryModel factoryModel)
+    public FactoryController(DiContainer container, Factory factory,PlayerFactory playerFactory,EnemyFactory enemyFactory)
     {
-        _factory = factoryModel.Factory;
-        _factoryModel = factoryModel;
-        _configAllEnemys = factoryModel.AllEnemysConfig;
-        _objectPool = factoryModel.Pool;
-        _enemyCounter = factoryModel.EnemyCounters;
-        _uIController = factoryModel.UiController;
-        _totalEnemyCount = factoryModel.TotalEnemyCountText;
-        _maxEnemy = factoryModel.MaxEnemy;
+        _container  = container;
+        _factory = factory;
+        _playerFactory = playerFactory;
+        _enemyFactory = enemyFactory;
     }
+
     
-    public GameObject CreateEnemy(EnemyTypes enemyTypes)
+
+    public void Initialize()
     {
-        return _configAllEnemys.GetEnemyWithType(enemyTypes).Enemys.gameObject;
+        _playerFactory.CreatePlayer(_factory.HeroSpawn);
+        _enemyFactory.CreateEnemy(EnemyTypes.BigSlime, _factory.EnemySpawn[0]);
+        _enemyFactory.CreateEnemy(EnemyTypes.BigSlime, _factory.EnemySpawn[1]);
     }
-    
-    public void Init()
+
+    public void Tick()
     {
-        CreateEnemys();
-        UpdateUI();
         
     }
-
-    public void UpdateUI()
-    {
-        _totalEnemyCount.text = $"TOTAL ENEMY IS  {_maxEnemy}";
-    }
-
-    private void CreateEnemys()
-    {
-        _enemyCounter.CountEnemy(_objectPool, ref _maxEnemy);
-        for (int i = 0; i < _maxEnemy; i++)
-        {
-            var EnemyGameObject = _objectPool.GetFromPool();
-            if(EnemyGameObject != null)
-            {
-                EnemyGameObject.SetActive(true);
-                EnemyGameObject.transform.position = GetRandomSpawnPosition();
-            }
-        }
-    }
-
-    private Vector3 GetRandomSpawnPosition()
-    {
-        var SpawnIndex = Random.Range(0, _factory.SpawnEnemyPosition.Length);
-        return _factory.SpawnEnemyPosition[SpawnIndex].position;
-    }
-
-    
 }

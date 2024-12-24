@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8921281897611635646}
   - component: {fileID: 9019324903430798870}
   - component: {fileID: 9010449601599353698}
-  - component: {fileID: 1444819641044379635}
-  m_Layer: 0
+  - component: {fileID: 6409318358391576318}
+  m_Layer: 6
   m_Name: Pseudopod
   m_TagString: Pseudopod
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a027387037c52884fbdb0ba64da507c6, type: 2}
+  - {fileID: 2100000, guid: 8c3f067d97073e844a53d8283b2d3820, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,13 +100,13 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1444819641044379635
+--- !u!54 &6409318358391576318
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

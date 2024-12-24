@@ -1,54 +1,52 @@
 using Zenject;
 using UnityEngine;
 using Enemy_Config;
+using Cinemachine;
 
 
 public class ProjectInstaller : MonoInstaller
 {
+    [SerializeField] private ScriptableObjectService _scriptableObjectService;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private CinemachineFreeLook _vrCamera;
     
-    [SerializeField] private HeroConfig _heroConfig;
-    [SerializeField] private ConfigAllEnemys _configAllEnemys;
-    [SerializeField] private HealthPotionConfig _healthPotionConfig;
-    [SerializeField] private PlayerView _player;
 
+    private PlayerView _player;
     private PlayerModel _playerModel;
     private PlayerController _playerController;
     private PlayerInput _playerInput;
-    private CameraView _cameraController;
-    private UIController _uiController;
-    private AnimatorController _animatorController;
+    private CameraView _cameraView;
+    
+    
+
 
 
     public override void InstallBindings()
     {
-        EnemyConfigBindings();
-        HeroConfigBindings();
-        HealthConfigBindings();
+        ConfigsBindings();
+        CameraBindings();
         PlayerBindings();
 
     }
 
+    private void ConfigsBindings()
+    {
+        Container.Bind<ScriptableObjectService>().FromInstance(_scriptableObjectService).AsSingle();
+    }
     private void PlayerBindings()
     {
-        _player = Container.InstantiatePrefabForComponent<PlayerView>(_player);
+        _player = Container.InstantiatePrefabForComponent<PlayerView>(Container.Resolve<ScriptableObjectService>().PlayerConfig.GetHeroValue().Player);
         Container.Bind<PlayerView>().FromInstance(_player).AsSingle();
         
     }
 
-    private void HealthConfigBindings()
+    private void CameraBindings()
     {
-        Container.Bind<HealthPotionConfig>().FromInstance(_healthPotionConfig).AsSingle();
+        Camera camera = Container.InstantiatePrefabForComponent<Camera>(_camera);
+        Container.Bind<Camera>().FromInstance(camera).AsSingle();
+        _cameraView = Container.InstantiatePrefabForComponent<CameraView>(_vrCamera);
+        Container.Bind<CameraView>().FromInstance(_cameraView).AsSingle();
     }
 
-    private void HeroConfigBindings()
-    {
-        Container.Bind<HeroConfig>().FromInstance(_heroConfig).AsSingle();
-    }
 
-    private void EnemyConfigBindings()
-    {
-        Container.Bind<ConfigAllEnemys>().FromInstance(_configAllEnemys).AsCached();
-    }
-
-    
 }

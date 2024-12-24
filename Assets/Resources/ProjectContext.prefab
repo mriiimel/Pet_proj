@@ -74,12 +74,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2d1ca8c2564fc4ca376c41a3b74c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyCounter: {fileID: 11400000, guid: 14169efa7c4d221459f138ba5e86e149, type: 2}
-  _heroConfig: {fileID: 11400000, guid: 1aec7dbbbdc40444caca14b616399754, type: 2}
-  _configAllEnemys: {fileID: 11400000, guid: fb80b515f393c154299ed4e8361358be, type: 2}
-  _healthPotionConfig: {fileID: 11400000, guid: 07b65f979c865754eb71fabf05718e13, type: 2}
-  _player: {fileID: 3492089922635376533, guid: d1939d2036f56a741966d66f4934e6e7, type: 3}
-  _animatorController: {fileID: 7572619961799404326, guid: b47855acc6020fb43ac3daf7eba82779, type: 3}
-  _uiController: {fileID: 0}
-  _cameraController: {fileID: 0}
-  _heroSpawn: {fileID: 0}
+  _scriptableObjectService: {fileID: 11400000, guid: cb7f5d70098362943b0013f1caebd7ac, type: 2}
+  _camera: {fileID: 41932398641319050, guid: 2783ad2c50c8f564f997725ccb97320d, type: 3}
+  _vrCamera: {fileID: 6633896648408451778, guid: 49e0e438f69ccf14bbf9f2bdb5810c1f, type: 3}

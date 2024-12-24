@@ -1,23 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HeroConfig", menuName = "ScriptableObject/HeroConfig", order = 0)]
 public class HeroConfig : ScriptableObject
 {
-    [field: SerializeField] public int MaxHealh { get; private set; }
-    [field: SerializeField] public int Damage { get; private set; }
-    [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public float MaxVerticalSpeed { get; private set; }
-    [field: SerializeField] public float RotationSpeed { get; private set; }
-    [field: SerializeField] public float CritChance { get; private set; }
+    [SerializeField]private List<HeroStatValue> heroConfigs; 
     
 
-    public void SetHeroSpeed(float value)
+    public HeroStatValue GetHeroValue()
     {
-        Speed = value;
-    }
-
-    public void SetHeroCritChance(float value)
-    {
-        CritChance = value;
+        foreach (var hero in heroConfigs) 
+        {
+            return hero;
+        }
+        return null;
     }
 }

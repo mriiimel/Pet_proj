@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Enemy_Config;
+using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -8,51 +11,55 @@ public class EnemyController: MonoBehaviour
     private EnemyView _enemyView;
     private PlayerView _playerView;
     private EnemyModel _enemyModel;
-    private UiView _uiView;
+    private Image _enemyHealth;
     private Camera _camera;
     private GameObject _enemyHealthBar;
-
+    private ConfigAllEnemys _configAllEnemys;
+    private HeroConfig _heroConfig;
+    private ObjectPool _pool;
     
-    public void Construct(EnemyView enemyView,PlayerView playerView, EnemyModel enemyModel, UiView uIView, Camera camera,
-        GameObject enemyHealthBar)
+    private float _currentHealth;
+
+    public static event Action EnemyIsDead;
+
+    public void Construct(EnemyView enemyView,PlayerView playerView, EnemyModel enemyModel,  Camera camera,
+        GameObject enemyHealthBar,ObjectPool objectPool)
         
     {
         _enemyView = enemyView;
         _playerView = playerView;
         _enemyModel = enemyModel;
-        _uiView = uIView;
         _camera = camera;
         _enemyHealthBar = enemyHealthBar;
+        _configAllEnemys = enemyModel.ScriptableObjectService.EnemyConfig;
+        _heroConfig = enemyModel.ScriptableObjectService.PlayerConfig;
+        _pool = objectPool;
     }
 
-    public void EnemyMoving()
+    public void IsDead()
     {
-        
-        var distanceToHero = Vector3.Distance(_enemyView.transform.position, _playerView.transform.position);
-        if (_enemyView.Agent.stoppingDistance <= distanceToHero)
-        {
-            _enemyView.Agent.isStopped = false;
-            _enemyView.Agent.SetDestination(_playerView.transform.position);
-        }
-        else
-        {
-            _enemyView.Agent.isStopped = true;
-        }
-
+        _enemyHealthBar.gameObject.SetActive(false);
+        _currentHealth = _enemyModel.ScriptableObjectService.EnemyConfig.GetEnemy(_enemyView.EnemyType).EnemyHealth;
+        _pool.RturnToPool(gameObject);
+        EnemyIsDead?.Invoke();
     }
+
     private void Start()
     {
         UbdateEnemyHealhBar();
-
+        _enemyHealth = _enemyHealthBar.GetComponent<Image>();
+        _currentHealth = _configAllEnemys.GetEnemy(_enemyView.EnemyType).EnemyHealth;
+        Debug.Log(_currentHealth);
 
     }
     private void Update()
     {
         EnemyMoving();
         UbdateEnemyHealhBar();
+        _enemyHealth.fillAmount = _currentHealth/ _configAllEnemys.GetEnemy(_enemyView.EnemyType).EnemyHealth;
     }
 
-    public void UbdateEnemyHealhBar()
+    private void UbdateEnemyHealhBar()
     {
         var screenPos = _camera.WorldToScreenPoint(_enemyView.transform.position + Vector3.up * 2);
 
@@ -69,6 +76,43 @@ public class EnemyController: MonoBehaviour
         
         
     }
+
+    private void EnemyMoving()
+    {
+        if (_enemyModel.IsDead) return;
+        var distanceToHero = Vector3.Distance(_enemyView.transform.position, _playerView.transform.position);
+        if (_enemyView.Agent.stoppingDistance <= distanceToHero)
+        {
+            _enemyView.Agent.isStopped = false;
+            _enemyView.Agent.SetDestination(_playerView.transform.position);
+            Vector3 directionToPlayer = (_playerView.transform.position - _enemyView.transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            _enemyView.transform.rotation =
+                Quaternion.Lerp(_enemyView.transform.rotation,
+                targetRotation, _configAllEnemys.GetEnemy(_enemyView.EnemyType).EnemyRotationSpeed * Time.fixedDeltaTime);
+            _enemyView.Animator.SetBool("Attack", false);
+        }
+        else
+        {
+            _enemyView.Animator.SetBool("Attack", true);
+            _enemyView.Agent.isStopped = true;
+        }
+
+    }
+
+    
+    public void TakeDamage()
+    {
+        Debug.Log("I take damage!");
+        _currentHealth -= _heroConfig.GetHeroValue().Damage;
+        Debug.Log(_currentHealth);
+        if (_currentHealth <= 0)
+        {
+            IsDead();
+
+        }
+    }
+
 
 }
 

@@ -12,22 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9b31868f256f54fb201a2cf85d9e53, type: 3}
   m_Name: EnemyCounters
   m_EditorClassIdentifier: 
-  _couner:
+  _counter:
   - EnemyType: 1
-    EnemyCount: 1
+    EnemyCount: 5
   - EnemyType: 2
-    EnemyCount: 1
+    EnemyCount: 2
   - EnemyType: 3
-    EnemyCount: 1
+    EnemyCount: 3
   - EnemyType: 4
-    EnemyCount: 1
+    EnemyCount: 4
   - EnemyType: 5
-    EnemyCount: 1
+    EnemyCount: 4
   - EnemyType: 6
-    EnemyCount: 1
-  - EnemyType: 7
-    EnemyCount: 1
+    EnemyCount: 3
   - EnemyType: 8
-    EnemyCount: 1
+    EnemyCount: 3
   - EnemyType: 9
     EnemyCount: 1

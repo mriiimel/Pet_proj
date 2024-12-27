@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 612712257045648470}
   - component: {fileID: -3386933329992313450}
-  - component: {fileID: 6867943071218662426}
   - component: {fileID: -3550402473473668454}
   - component: {fileID: -3993414200649420431}
   - component: {fileID: 8516069901255168659}
   - component: {fileID: -6232475932876532794}
+  - component: {fileID: 1009827946145267877}
   m_Layer: 6
   m_Name: SlimeBigLeaf
   m_TagString: Enemy
@@ -56,33 +56,6 @@ MonoBehaviour:
   _weponCollider: {fileID: 6941252456121584618}
   _agent: {fileID: -3993414200649420431}
   _animator: {fileID: 8516069901255168659}
---- !u!54 &6867943071218662426
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6269079527478182170}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!136 &-3550402473473668454
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -120,7 +93,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -161,6 +134,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c554fe64f4f6c54e8b089025ab36cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &1009827946145267877
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6269079527478182170}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 3
+  m_AngularDrag: 15
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1626837345624208051
 PrefabInstance:
   m_ObjectHideFlags: 0

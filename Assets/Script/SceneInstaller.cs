@@ -1,5 +1,4 @@
 using Enemy_Config;
-using Object_Pool;
 using UnityEngine;
 using Zenject;
 
@@ -7,7 +6,6 @@ using Zenject;
 public class SceneInstaller : MonoInstaller
 {
     [SerializeField] private Factory _enemyFactory;
-    [SerializeField] private EnemyCounter _enemyCounter;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private UiView _uiView;
     [SerializeField] private GameObject _enemyHealthBar;
@@ -24,6 +22,7 @@ public class SceneInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        
         UIBindings();
         ObjectPoolBindings();
         FactoryBindings();
@@ -31,7 +30,8 @@ public class SceneInstaller : MonoInstaller
         PlayerBindings();
         EnemyBindings();
         Container.Bind<Canvas>().FromInstance(_canvas).AsSingle();
-        Container.Bind<GameObject>().FromInstance(_enemyHealthBar).AsTransient() ;
+        Container.Bind<GameObject>().FromInstance(_enemyHealthBar).AsTransient();
+        
         
     }
 
@@ -71,6 +71,7 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<Factory>().FromInstance(_enemyFactory).AsSingle();
         Container.Bind<PlayerFactory>().AsSingle();
         Container.Bind<EnemyFactory>().AsSingle();
+        Container.Bind<HealthPotionFactory>().AsSingle();
         Container.Bind<FactoryModel>().AsSingle();
         Container.BindInterfacesAndSelfTo<FactoryController>().AsSingle();
         

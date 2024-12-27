@@ -143,12 +143,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4776cae6b2d0f164497ce892ee4dd05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnEnemyPosition>k__BackingField:
+  _enemyCounter: {fileID: 11400000, guid: 14169efa7c4d221459f138ba5e86e149, type: 2}
+  _enemySpawn:
   - {fileID: 6201825139476158837}
   - {fileID: 1620338404256919930}
   - {fileID: 1973417388508003679}
+  - {fileID: 3871672695666201056}
   - {fileID: 5175378098748372926}
   - {fileID: 5219953904670263452}
+  _heroSpawn: {fileID: 0}
+  _maxEnemys: 100
+  _maxEnemysOnScene: 5
 --- !u!1 &5258327017969739251
 GameObject:
   m_ObjectHideFlags: 0

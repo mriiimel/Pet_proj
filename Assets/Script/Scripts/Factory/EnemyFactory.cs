@@ -13,7 +13,7 @@ public class EnemyFactory
         _enemyHealthBar = enemyHealthBar;
     }
 
-    public void CreateEnemy(EnemyTypes enemyTypes,Transform enemySpawn)
+    public GameObject CreateEnemy(EnemyTypes enemyTypes,Transform enemySpawn)
     {
         var enemy = _container.Resolve<ScriptableObjectService>().EnemyConfig.GetEnemy(enemyTypes).Enemys.gameObject;
         var enemyInstace = _container.InstantiatePrefab(enemy,enemySpawn.position,Quaternion.identity,null);
@@ -21,7 +21,7 @@ public class EnemyFactory
         var enemyController = enemyInstace.GetComponent<EnemyController>();
         var enemyView = enemyInstace.GetComponent<EnemyView>();
         enemyController.Construct(enemyView,_container.Resolve<PlayerView>(),_container.Resolve<EnemyModel>(),
-            _container.Resolve<UiView>(), _container.Resolve<Camera>(), enemyHealthBar);
-        
+             _container.Resolve<Camera>(), enemyHealthBar,_container.Resolve<ObjectPool>());
+        return enemyView.gameObject;
     }
 }

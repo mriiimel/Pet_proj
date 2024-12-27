@@ -8,7 +8,7 @@ public class PlayerModel
     private float _playerSpeed;
     private readonly float _playerRotationSpeed;
     private float _attackSpeed;
-
+   
 
     
     private readonly ScriptableObjectService _scriptableObjectService;
@@ -31,7 +31,6 @@ public class PlayerModel
     public ScriptableObjectService ScriptableObjectService => _scriptableObjectService;
 
     public Camera CameraView { get => _cameraView; set => _cameraView = value; }
-
     
 
     public PlayerModel(ScriptableObjectService scriptableObjectService,Camera cameraView)

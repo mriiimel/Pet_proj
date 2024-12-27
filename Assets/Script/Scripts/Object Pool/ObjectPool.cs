@@ -1,43 +1,40 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using ModestTree;
 
 
 
-namespace Object_Pool
+public class ObjectPool
 {
-    public class ObjectPool
+    private Queue<GameObject> _pool;
+
+    public ObjectPool()
     {
-        private Stack<GameObject> _pool;
-        
-        public ObjectPool()
-        {
-            _pool = new Stack<GameObject>();
+        _pool = new ();
 
-        }
-        
-        public GameObject GetFromPool()
-        {
-            
-            for(int i = 0;i<= _pool.Count; i++)
-            {
-                if(_pool.IsEmpty() == false)
-                {
-                    return _pool.Pop();
-                }
-            }
-            return null;
-        }
-
-        //public void AddToPool(EnemyTypes enemyTyps)
-        //{
-
-        //    var gameObj = _enemyFactoryBase.CreateEnemy(enemyTyps);
-        //    gameObj.gameObject.SetActive(false);
-        //    var obj = Instantiate(gameObj);
-        //    _pool.Push(obj);
-
-        //}
     }
+
+    public void AddToPool(GameObject gameObject)
+    {
+        gameObject.SetActive (false);
+        _pool.Enqueue(gameObject);
+    }
+
+    public GameObject GetFromPool()
+    {
+        if (_pool.Count > 0)
+        { 
+
+            return _pool.Dequeue();
+        }   
+        return null;
+    }
+    public void RturnToPool(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+        _pool.Enqueue(gameObject);
+    }
+
+        
 }
+

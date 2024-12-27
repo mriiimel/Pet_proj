@@ -2,8 +2,10 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Zenject;
-using Random = UnityEngine.Random;
+
+
 
 
 public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
@@ -14,23 +16,27 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
     private Camera _camera;
     private PlayerInput _playerInput;
     private InputAction _onMove;
+    private UiView _uiView;
+    
+
+    private Image _heroHealthBar;
     private Vector3 m_MoveDirection;
-    private IHeailhBehaviour _heailhBehaviour;
     private float _attackSpeedMultiplier;
-    private int _currentHealth;
+    
     #region Flags
     private bool _isAttacking = false;
     private bool _isShildUp = false;
     #endregion
 
 
-    public PlayerController(PlayerView playerView,PlayerModel playerModel,PlayerInput inputActions)
+    public PlayerController(PlayerView playerView,PlayerModel playerModel,PlayerInput inputActions, UiView uiView)
     {
         _player = playerView;
         _playerModel = playerModel;
         _scriptableObjectService = playerModel.ScriptableObjectService;
         _camera = playerModel.CameraView;
         _playerInput = inputActions;
+        _uiView = uiView;   
         _attackSpeedMultiplier = playerModel.AttackSpeed;
         
     }
@@ -43,70 +49,33 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
 
     public void DecreaseAttackSpeed(float amount)
     {
-        _attackSpeedMultiplier = Mathf.Max(0.1f, _attackSpeedMultiplier - amount); // чтобы скорость не была отрицательной
+        _attackSpeedMultiplier = Mathf.Max(0.1f, _attackSpeedMultiplier - amount); 
     }
 
     private async void HandleAttack()
     {
-        if(_isAttacking || _isShildUp) return;
+        
+        if (_isShildUp | _isAttacking) return;
         _isAttacking = true;
         _player.EnableWeaponCollider(true);
-        var crit = Random.Range(0.0F, 100.0F);
-
-        string animationName = crit <= _playerModel.PlayerCritChance ? "Attack02" : "Attack01";
-
-        _player.PlayerAnimator.Play(animationName);
-
-        var animationClip = _player.PlayerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
-        await Task.Delay(TimeSpan.FromSeconds(animationClip.length * _attackSpeedMultiplier));
-
-        _isAttacking = false;
+        _player.PlayerAnimator.SetTrigger("FirstAttack");
+        var animationClip = _player.PlayerAnimator.GetCurrentAnimatorClipInfo(1)[0].clip;
+        await Task.Delay(TimeSpan.FromSeconds(animationClip.length * _playerModel.AttackSpeed));
+        
         _player.EnableWeaponCollider(false);
+        _isAttacking = false;
+        _player.WeaponController.EnemyTarget.Clear();
     }
 
-    private async void HandleBlock()
+    private void HandleBlock()
     {
         if (_isAttacking) return;
-        _isShildUp = true;
-        _player.EnableShealdCollider(true);
-
-        _player.PlayerAnimator.Play("Defend");
-        var clip = _player.PlayerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
-        await Task.Delay(TimeSpan.FromSeconds(clip.length / 2));
-
-        await Task.Delay(TimeSpan.FromSeconds(clip.length));
-        _player.EnableShealdCollider(false);
-        _isShildUp = false;
+        
     }
-    
-    public void OnCollisionWithEnemy(Collision collision)
-    {
-        if (!collision.gameObject.CompareTag("Pseudopod")) return;
-        var obj = collision.gameObject.GetComponentInParent<EnemyView>().EnemyType;
-        _currentHealth = 
-            _heailhBehaviour.RemoveHealth
-            (_scriptableObjectService.EnemyConfig.GetEnemy(obj).EnemyAttack,
-            _currentHealth, _playerModel.PlayerMaxHealth);
-    }
-    
 
-    
-    public void OnTriggerMethod(Collider collider)
-    {
-        if (!collider.gameObject.CompareTag("HealthPotion")) return;
-        var obj = collider.gameObject.GetComponent<HealthPotion>().PotionType;
-        _currentHealth = _heailhBehaviour.
-            AddHealth(_scriptableObjectService.PotionConfig.GetPotionValue(obj).HealthRecover, _currentHealth, _playerModel.PlayerMaxHealth);
-    }
-    
-    public void Tick()
-    {
-        m_MoveDirection = _onMove.ReadValue<Vector2>();
-        PlayerMove(m_MoveDirection);
-
-    }
     private void PlayerMove(Vector3 move)
     {
+
         _player.PlayerAnimator.SetFloat("Value", move.magnitude);
         var axisX = _camera.transform.forward;
         var axisY = _camera.transform.right;
@@ -115,16 +84,34 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
         _player.PlayerRb.MovePosition(_player.PlayerRb.transform.position + val * _playerModel.PlayerSpeed * Time.fixedDeltaTime);
         if (move.magnitude != 0)
         {
-            
+
             Quaternion targetRotation = Quaternion.LookRotation(val);
             _player.PlayerRb.transform.rotation = Quaternion.Lerp(_player.PlayerRb.transform.rotation,
                 targetRotation, _playerModel.PlayerRotationSpeed * Time.fixedDeltaTime);
         }
     }
 
+    private void UpdateHealthBar()
+    {
+        _heroHealthBar.fillAmount = _player.GetCurrentHealth() / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+        
+    }
+
+
+
+    public void Tick()
+    {
+        m_MoveDirection = _onMove.ReadValue<Vector2>();
+        PlayerMove(m_MoveDirection);
+        UpdateHealthBar();
+
+    }
+    
+
     public void Initialize()
     {
-        
+        _heroHealthBar = _uiView.HeroHealthBar;
+        _heroHealthBar.fillAmount = _player.GetCurrentHealth() / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
         _onMove = _playerInput.Player.Move;
         _playerInput.Player.Fire.performed += OnAttack;
         _playerInput.Player.Block.performed += OnBlock;
@@ -144,7 +131,9 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        
         HandleAttack();
+
     }
 
     public void OnBlock(InputAction.CallbackContext context)

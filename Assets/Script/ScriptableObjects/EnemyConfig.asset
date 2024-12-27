@@ -16,19 +16,21 @@ MonoBehaviour:
   - enemyTypes: 1
     typeOfAttack: 0
     Enemys: {fileID: 8618542878397039702, guid: 6368626ec57c5a04ab16de913d3ca66a, type: 3}
-    <EnemyHealth>k__BackingField: 10
-    <EnemyAttack>k__BackingField: 1
+    <EnemyHealth>k__BackingField: 10000
+    <EnemyAttack>k__BackingField: 5
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 2
     typeOfAttack: 0
     Enemys: {fileID: 34998180358915791, guid: ef9d005d208d4fd4487b5dcf41a4e512, type: 3}
-    <EnemyHealth>k__BackingField: 50
+    <EnemyHealth>k__BackingField: 100
     <EnemyAttack>k__BackingField: 5
     <EnemyDefence>k__BackingField: 2
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 3
     typeOfAttack: 0
     Enemys: {fileID: 9138344241267800757, guid: 45418593a17d8d34381e762b047d0fd2, type: 3}
@@ -37,14 +39,16 @@ MonoBehaviour:
     <EnemyDefence>k__BackingField: 3
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 4
     typeOfAttack: 0
     Enemys: {fileID: 6485555046174337334, guid: 32bd20e7308492a45b42adbc21071cdb, type: 3}
-    <EnemyHealth>k__BackingField: 15
+    <EnemyHealth>k__BackingField: 40
     <EnemyAttack>k__BackingField: 5
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 5
     typeOfAttack: 0
     Enemys: {fileID: 3264228913185703298, guid: a248aabe24bc305408e9ff7f39feb36a, type: 3}
@@ -53,35 +57,40 @@ MonoBehaviour:
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 2
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 6
     typeOfAttack: 0
     Enemys: {fileID: 2133431079791280690, guid: e396b2c9effcfa849995ea401eef2ce7, type: 3}
-    <EnemyHealth>k__BackingField: 100000
+    <EnemyHealth>k__BackingField: 110
     <EnemyAttack>k__BackingField: 10
     <EnemyDefence>k__BackingField: 2
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 5
   - enemyTypes: 7
     typeOfAttack: 1
     Enemys: {fileID: -3386933329992313450, guid: 2860a283d36dd2e448e15040a122b021, type: 3}
-    <EnemyHealth>k__BackingField: 35
+    <EnemyHealth>k__BackingField: 110
     <EnemyAttack>k__BackingField: 30
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 7
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 8
     typeOfAttack: 1
     Enemys: {fileID: -5662813051565425494, guid: 76702f47b67ca754ca8b8b6a0721472e, type: 3}
-    <EnemyHealth>k__BackingField: 35
+    <EnemyHealth>k__BackingField: 110
     <EnemyAttack>k__BackingField: 15
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 5
     <EnemyAttackSpeed>k__BackingField: 1
+    <EnemyRotationSpeed>k__BackingField: 0
   - enemyTypes: 9
     typeOfAttack: 0
     Enemys: {fileID: 3412107236808276165, guid: 9d281fe4ad81da247894a767cf7ebd1c, type: 3}
-    <EnemyHealth>k__BackingField: 1250
+    <EnemyHealth>k__BackingField: 200
     <EnemyAttack>k__BackingField: 30
     <EnemyDefence>k__BackingField: 5
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 2
+    <EnemyRotationSpeed>k__BackingField: 0

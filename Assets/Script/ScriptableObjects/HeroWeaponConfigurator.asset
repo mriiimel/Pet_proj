@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _heroWeapons:
   - weaponType: 0
-    <WeaponBaseDamage>k__BackingField: 1000
+    <WeaponBaseDamage>k__BackingField: 10
     <NotPhisicalDamage>k__BackingField: 0

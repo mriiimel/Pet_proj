@@ -16,8 +16,8 @@ MonoBehaviour:
   - enemyTypes: 1
     typeOfAttack: 0
     Enemys: {fileID: 8618542878397039702, guid: 6368626ec57c5a04ab16de913d3ca66a, type: 3}
-    <EnemyHealth>k__BackingField: 10000
-    <EnemyAttack>k__BackingField: 5
+    <EnemyHealth>k__BackingField: 60
+    <EnemyAttack>k__BackingField: 3
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
   - enemyTypes: 3
     typeOfAttack: 0
     Enemys: {fileID: 9138344241267800757, guid: 45418593a17d8d34381e762b047d0fd2, type: 3}
-    <EnemyHealth>k__BackingField: 55
+    <EnemyHealth>k__BackingField: 70
     <EnemyAttack>k__BackingField: 4
     <EnemyDefence>k__BackingField: 3
     <EnemyAttackRange>k__BackingField: 1
@@ -43,8 +43,8 @@ MonoBehaviour:
   - enemyTypes: 4
     typeOfAttack: 0
     Enemys: {fileID: 6485555046174337334, guid: 32bd20e7308492a45b42adbc21071cdb, type: 3}
-    <EnemyHealth>k__BackingField: 40
-    <EnemyAttack>k__BackingField: 5
+    <EnemyHealth>k__BackingField: 70
+    <EnemyAttack>k__BackingField: 4
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 1
@@ -52,8 +52,8 @@ MonoBehaviour:
   - enemyTypes: 5
     typeOfAttack: 0
     Enemys: {fileID: 3264228913185703298, guid: a248aabe24bc305408e9ff7f39feb36a, type: 3}
-    <EnemyHealth>k__BackingField: 80
-    <EnemyAttack>k__BackingField: 20
+    <EnemyHealth>k__BackingField: 70
+    <EnemyAttack>k__BackingField: 15
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 1
     <EnemyAttackSpeed>k__BackingField: 2
@@ -71,7 +71,7 @@ MonoBehaviour:
     typeOfAttack: 1
     Enemys: {fileID: -3386933329992313450, guid: 2860a283d36dd2e448e15040a122b021, type: 3}
     <EnemyHealth>k__BackingField: 110
-    <EnemyAttack>k__BackingField: 30
+    <EnemyAttack>k__BackingField: 15
     <EnemyDefence>k__BackingField: 0
     <EnemyAttackRange>k__BackingField: 7
     <EnemyAttackSpeed>k__BackingField: 1

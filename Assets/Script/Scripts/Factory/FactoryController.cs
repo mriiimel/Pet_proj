@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -18,14 +16,18 @@ public class FactoryController: ITickable,IInitializable,IDisposable
     private PlayerView _playerView;
     private EnemyCounter _enemyCounter;
     private HealthPotionFactory _healthPotionFactory;
+    private UiView _uiView;
+
+
     private int _currentEnemy = 0;
     private int _currentEnemyOnScene = 0;
-
+    private int _totalEnemyKilled = 0;
 
    
     
     public FactoryController(DiContainer container, Factory factory, PlayerFactory playerFactory,
-        ObjectPool objectPool,EnemyFactory enemyFactory,HealthPotionFactory healthPotionFactory)
+        ObjectPool objectPool,EnemyFactory enemyFactory,HealthPotionFactory healthPotionFactory,
+        UiView uiView)
     {
         _container  = container;
         _factory = factory;
@@ -34,11 +36,14 @@ public class FactoryController: ITickable,IInitializable,IDisposable
         _enemyFactory = enemyFactory;
         _enemyCounter = _factory.EnemyCounters;
         _healthPotionFactory = healthPotionFactory;
+        _uiView = uiView;
     }
 
     public void HandleEnemyIsDead()
     {
         _currentEnemyOnScene--;
+        _totalEnemyKilled++;
+        TotalEnemyKilledToUpdate();
     }
 
     
@@ -94,6 +99,11 @@ public class FactoryController: ITickable,IInitializable,IDisposable
         }
     }
 
+    private void TotalEnemyKilledToUpdate()
+    {
+        _uiView.TotalEnemysKill.text = $"Total Enemy Killed: {_totalEnemyKilled} ";
+    }
+
     
     public void Initialize()
     {
@@ -101,6 +111,7 @@ public class FactoryController: ITickable,IInitializable,IDisposable
         _playerFactory.CreatePlayer(_factory.HeroSpawn);
         EnemyInit();
         InitHealthPotion(_factory.HealthPotionSpawn);
+        TotalEnemyKilledToUpdate();
     }
 
     public void Tick()

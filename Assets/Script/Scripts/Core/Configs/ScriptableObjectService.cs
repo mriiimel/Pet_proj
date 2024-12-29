@@ -7,5 +7,6 @@ public class ScriptableObjectService : ScriptableObject
     public ConfigAllEnemys EnemyConfig;
     public HeroConfig PlayerConfig;
     public HealthPotionConfig PotionConfig;
+    public HeroWeaponConfig HeroWeaponConfig;
     
 }

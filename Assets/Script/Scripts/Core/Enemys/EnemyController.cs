@@ -1,5 +1,6 @@
 ﻿using Enemy_Config;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,18 +39,27 @@ public class EnemyController: MonoBehaviour
 
     public void IsDead()
     {
+        
+        ReturnToPool();
+    }
+
+    private void ReturnToPool()
+    {
         _enemyHealthBar.gameObject.SetActive(false);
+        
         _currentHealth = _enemyModel.ScriptableObjectService.EnemyConfig.GetEnemy(_enemyView.EnemyType).EnemyHealth;
+        
         _pool.RturnToPool(gameObject);
         EnemyIsDead?.Invoke();
     }
+    
 
     private void Start()
     {
         UbdateEnemyHealhBar();
         _enemyHealth = _enemyHealthBar.GetComponent<Image>();
         _currentHealth = _configAllEnemys.GetEnemy(_enemyView.EnemyType).EnemyHealth;
-        Debug.Log(_currentHealth);
+        
 
     }
     private void Update()
@@ -73,8 +83,8 @@ public class EnemyController: MonoBehaviour
         {
             _enemyHealthBar.gameObject.SetActive(true);
         }
-        
-        
+
+
     }
 
     private void EnemyMoving()
@@ -90,25 +100,32 @@ public class EnemyController: MonoBehaviour
             _enemyView.transform.rotation =
                 Quaternion.Lerp(_enemyView.transform.rotation,
                 targetRotation, _configAllEnemys.GetEnemy(_enemyView.EnemyType).EnemyRotationSpeed * Time.fixedDeltaTime);
+            _enemyView.Animator.SetFloat("Move", 1F);
             _enemyView.Animator.SetBool("Attack", false);
+            _enemyView.WeponCollider.enabled = false;
         }
         else
         {
-            _enemyView.Animator.SetBool("Attack", true);
+            _enemyView.Animator.SetFloat("Move", 0F);
+            _enemyView.Animator.SetBool("Attack",true);
+            _enemyView.WeponCollider.enabled = true;
             _enemyView.Agent.isStopped = true;
         }
 
     }
 
     
-    public void TakeDamage()
+    
+    public void GetDamage(float damage)
     {
-        Debug.Log("I take damage!");
-        _currentHealth -= _heroConfig.GetHeroValue().Damage;
-        Debug.Log(_currentHealth);
+        _enemyView.GetDamageEffect.Play();
+        _currentHealth -= damage;
+        
+        
         if (_currentHealth <= 0)
         {
-            IsDead();
+            _enemyView.Animator.SetBool("Dead", true);
+            //IsDead();
 
         }
     }

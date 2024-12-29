@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Zenject;
+
 
 public class EnemyView : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class EnemyView : MonoBehaviour
     [SerializeField] private Collider _weponCollider;
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private Animator _animator;
+    [SerializeField] private ParticleSystem _getDamageEffect;
     
     
     
@@ -17,5 +18,8 @@ public class EnemyView : MonoBehaviour
     public NavMeshAgent Agent { get => _agent; set => _agent = value; }
     public Animator Animator { get => _animator; set => _animator = value; }
     public EnemyTypes EnemyType { get => _enemyType; set => _enemyType = value; }
+    public ParticleSystem GetDamageEffect { get => _getDamageEffect; set => _getDamageEffect = value; }
+    
+
     
 }

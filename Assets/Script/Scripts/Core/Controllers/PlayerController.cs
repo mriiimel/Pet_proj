@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -22,6 +23,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
     private Image _heroHealthBar;
     private Vector3 m_MoveDirection;
     private float _attackSpeedMultiplier;
+    private float _currentHealth = 0;
     
     #region Flags
     private bool _isAttacking = false;
@@ -65,6 +67,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
         _player.EnableWeaponCollider(false);
         _isAttacking = false;
         _player.WeaponController.EnemyTarget.Clear();
+       
     }
 
     private void HandleBlock()
@@ -75,13 +78,14 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
 
     private void PlayerMove(Vector3 move)
     {
-
         _player.PlayerAnimator.SetFloat("Value", move.magnitude);
         var axisX = _camera.transform.forward;
         var axisY = _camera.transform.right;
         Vector3 movement = move.x * axisY.normalized + move.y * axisX.normalized;
         Vector3 val = new Vector3(movement.x, 0, movement.z);
         _player.PlayerRb.MovePosition(_player.PlayerRb.transform.position + val * _playerModel.PlayerSpeed * Time.fixedDeltaTime);
+
+
         if (move.magnitude != 0)
         {
 
@@ -93,11 +97,19 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
 
     private void UpdateHealthBar()
     {
-        _heroHealthBar.fillAmount = _player.GetCurrentHealth() / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+        _heroHealthBar.fillAmount = _currentHealth / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
         
     }
 
-
+    public void GetDamage(float damage)
+    {
+        _currentHealth -= damage;
+        if(_currentHealth <= 0)
+        {
+            _currentHealth = 0;
+            
+        }
+    }
 
     public void Tick()
     {
@@ -111,7 +123,8 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
     public void Initialize()
     {
         _heroHealthBar = _uiView.HeroHealthBar;
-        _heroHealthBar.fillAmount = _player.GetCurrentHealth() / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+        _currentHealth = _playerModel.PlayerMaxHealth;
+        _heroHealthBar.fillAmount = _currentHealth / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
         _onMove = _playerInput.Player.Move;
         _playerInput.Player.Fire.performed += OnAttack;
         _playerInput.Player.Block.performed += OnBlock;
@@ -131,7 +144,7 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        
+        if(_isAttacking) { return; }
         HandleAttack();
 
     }

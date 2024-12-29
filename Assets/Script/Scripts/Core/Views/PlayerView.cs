@@ -14,7 +14,7 @@ public class PlayerView : MonoBehaviour
 
     private ScriptableObjectService _scriptableObjecService;
     private float _currentHealth = 0;
-    private bool _damageIsApplay = false;
+    
 
     public Rigidbody PlayerRb { get => _playerRb; private set => _playerRb = value; }
     public Collider WeaponCollider { get => _weaponCollider; private set => _weaponCollider = value; }
@@ -45,29 +45,5 @@ public class PlayerView : MonoBehaviour
         _currentHealth = _scriptableObjecService.PlayerConfig.GetHeroValue().MaxHealth;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Pseudopod" & !_damageIsApplay)
-        {
-            _damageIsApplay = true;
-            var enemyTipe = other.gameObject.GetComponentInParent<EnemyView>().EnemyType;
-            var enemyDamage = _scriptableObjecService.EnemyConfig.GetEnemy(enemyTipe).EnemyAttack;
-            _currentHealth -= enemyDamage;
-
-            if (_currentHealth <= 0)
-                _currentHealth = 0;
-            
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        _damageIsApplay = false;
-    }
-
-
-    public ref float GetCurrentHealth()
-    {
-        return ref _currentHealth;
-    }
+    
 }

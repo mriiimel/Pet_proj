@@ -11,6 +11,8 @@ TagManager:
   - Weapon
   - Pseudopod
   - HealthPotion
+  - FxTemporaire
+  - Bonfire
   layers:
   - Default
   - TransparentFX

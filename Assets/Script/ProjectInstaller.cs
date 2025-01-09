@@ -1,7 +1,7 @@
 using Zenject;
 using UnityEngine;
-using Enemy_Config;
 using Cinemachine;
+using System;
 
 
 public class ProjectInstaller : MonoInstaller
@@ -23,10 +23,10 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        ConfigsBindings();
-        CameraBindings();
-        PlayerBindings();
-
+        //ConfigsBindings();
+        //CameraBindings();
+        //PlayerBindings();
+        //SceneContext.Create();
     }
 
     private void ConfigsBindings()
@@ -48,5 +48,8 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<CameraView>().FromInstance(_cameraView).AsSingle();
     }
 
-
+    private void OnDisable()
+    {
+        Container.UnbindAll();
+    }
 }

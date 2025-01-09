@@ -8,5 +8,5 @@ public class ScriptableObjectService : ScriptableObject
     public HeroConfig PlayerConfig;
     public HealthPotionConfig PotionConfig;
     public HeroWeaponConfig HeroWeaponConfig;
-    
+    public EnemyFaces EnemyFaces;
 }

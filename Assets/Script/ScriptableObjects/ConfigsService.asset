@@ -16,3 +16,4 @@ MonoBehaviour:
   PlayerConfig: {fileID: 11400000, guid: 1aec7dbbbdc40444caca14b616399754, type: 2}
   PotionConfig: {fileID: 11400000, guid: 07b65f979c865754eb71fabf05718e13, type: 2}
   HeroWeaponConfig: {fileID: 11400000, guid: 0d2d6a30e4853e3428daf99d27c4e101, type: 2}
+  EnemyFaces: {fileID: 11400000, guid: 0636d2f64b4d7584ba4370f8d202d713, type: 2}

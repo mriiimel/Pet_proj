@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-public class FactoryController: ITickable,IInitializable,IDisposable
+public class FactoryController: MonoBehaviour
 {
     private readonly FactoryModel _factoryModel;
     private DiContainer _container;
@@ -17,15 +16,17 @@ public class FactoryController: ITickable,IInitializable,IDisposable
     private EnemyCounter _enemyCounter;
     private HealthPotionFactory _healthPotionFactory;
     private UiView _uiView;
-
+    
 
     private int _currentEnemy = 0;
     private int _currentEnemyOnScene = 0;
     private int _totalEnemyKilled = 0;
+    private GameObject _bigHealthPotion;
+    private GameObject _smallHealthPotion;
 
-   
-    
-    public FactoryController(DiContainer container, Factory factory, PlayerFactory playerFactory,
+
+    [Inject]
+    public void Construct(DiContainer container, Factory factory, PlayerFactory playerFactory,
         ObjectPool objectPool,EnemyFactory enemyFactory,HealthPotionFactory healthPotionFactory,
         UiView uiView)
     {
@@ -37,6 +38,7 @@ public class FactoryController: ITickable,IInitializable,IDisposable
         _enemyCounter = _factory.EnemyCounters;
         _healthPotionFactory = healthPotionFactory;
         _uiView = uiView;
+        
     }
 
     public void HandleEnemyIsDead()
@@ -75,12 +77,7 @@ public class FactoryController: ITickable,IInitializable,IDisposable
         }
     }
 
-    private void InitHealthPotion(Transform spawn)
-    {
-        var Potion = GameObject.Instantiate(_healthPotionFactory.CreateHealthPotion());
-        Potion.transform.position = spawn.position;
-        Potion.SetActive(false);
-    }
+    
 
     private void CountEnemy()
     {
@@ -98,29 +95,31 @@ public class FactoryController: ITickable,IInitializable,IDisposable
 
         }
     }
+    
 
     private void TotalEnemyKilledToUpdate()
     {
         _uiView.TotalEnemysKill.text = $"Total Enemy Killed: {_totalEnemyKilled} ";
     }
-
     
-    public void Initialize()
+    
+    public void Awake()
     {
+        
         EnemyController.EnemyIsDead += HandleEnemyIsDead;
         _playerFactory.CreatePlayer(_factory.HeroSpawn);
         EnemyInit();
-        InitHealthPotion(_factory.HealthPotionSpawn);
+        _healthPotionFactory.InitHealthPotion(_factory.BigHealthPotionSpawn, _factory.SmallHealthPotionSpawn);
         TotalEnemyKilledToUpdate();
     }
 
-    public void Tick()
+    public void LateUpdate()
     {
         CountEnemy();
     }
-
-    public void Dispose()
+    private void OnDisable()
     {
         EnemyController.EnemyIsDead -= HandleEnemyIsDead;
     }
+
 }

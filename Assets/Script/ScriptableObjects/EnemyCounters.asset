@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _counter:
   - EnemyType: 1
-    EnemyCount: 5
+    EnemyCount: 3
   - EnemyType: 2
-    EnemyCount: 2
+    EnemyCount: 3
   - EnemyType: 3
     EnemyCount: 3
   - EnemyType: 4
-    EnemyCount: 4
+    EnemyCount: 3
   - EnemyType: 5
-    EnemyCount: 4
+    EnemyCount: 3
   - EnemyType: 6
-    EnemyCount: 3
+    EnemyCount: 0
   - EnemyType: 8
-    EnemyCount: 3
+    EnemyCount: 0
   - EnemyType: 9
-    EnemyCount: 1
+    EnemyCount: 0

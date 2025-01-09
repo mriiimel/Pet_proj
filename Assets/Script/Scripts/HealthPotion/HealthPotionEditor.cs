@@ -8,4 +8,5 @@ public class HealthPotionEditor
     public HealthPotionType Type;
     public HealthPotion potion;
     [field: SerializeField] public int HealthRecover { get; private set; }
+    [field: SerializeField] public int CoolDown { get; private set; }
 }

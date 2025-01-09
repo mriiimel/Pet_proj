@@ -26,8 +26,7 @@ namespace TMPro.Examples
         private Material m_material01;
         private Material m_material02;
 
-
-
+        [System.Obsolete]
         IEnumerator Start()
         {
 

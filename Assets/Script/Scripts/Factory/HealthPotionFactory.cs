@@ -1,20 +1,41 @@
 using UnityEngine;
+using Zenject;
 
 public class HealthPotionFactory 
 {
     private ScriptableObjectService _scriptableObjectService;
-    public HealthPotionFactory(ScriptableObjectService scriptableObjectService)
+    private DiContainer _container;
+    private HealthPotionActivator _healthPotionActivator;
+    
+    public HealthPotionFactory(DiContainer diContainer,HealthPotionActivator healthPotionActivator)
     {
-        _scriptableObjectService = scriptableObjectService;
+        _scriptableObjectService = diContainer.Resolve<ScriptableObjectService>();
+        _container = diContainer;
+        _healthPotionActivator = healthPotionActivator;
+        
     }
 
 
-    public GameObject CreateHealthPotion()
+    public void InitHealthPotion(Transform BigPotionSpawn,Transform SmallPotionSpawn)
     {
-        foreach(var value in _scriptableObjectService.PotionConfig.GetPotionValue())
+        var bigPotion = _container.InstantiatePrefab(_scriptableObjectService.PotionConfig.GetPotion(HealthPotionType.BigPotion).potion,BigPotionSpawn.position,
+            Quaternion.identity,null);
+        bigPotion.SetActive(false);
+        var smallPotion = _container.InstantiatePrefab(_scriptableObjectService.PotionConfig.GetPotion(HealthPotionType.SmallPotion).potion, SmallPotionSpawn.position,
+            Quaternion.identity,null);
+        smallPotion.SetActive(false);
+        var random = Random.Range(0f, 2f);
+        if (random < 1)
         {
-            return value.potion.gameObject;
+            smallPotion.SetActive(true);
         }
-        return null;
+        else
+        {
+            bigPotion.SetActive(true);
+        }
+
+        _healthPotionActivator.Construct(_scriptableObjectService,bigPotion,smallPotion);
     }
+
+
 }

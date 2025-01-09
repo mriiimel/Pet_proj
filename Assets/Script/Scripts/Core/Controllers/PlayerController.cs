@@ -1,15 +1,13 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
 
 
 
-public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
+public class PlayerController: ITickable,IInitializable,IPlayer
 {
     private PlayerView _player;
     private PlayerModel _playerModel;
@@ -24,7 +22,9 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
     private Vector3 m_MoveDirection;
     private float _attackSpeedMultiplier;
     private float _currentHealth = 0;
-    
+
+    public static event Action HealthIsRecover;
+    public static event Action PlayerIsDead;
     #region Flags
     private bool _isAttacking = false;
     private bool _isShildUp = false;
@@ -54,18 +54,13 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
         _attackSpeedMultiplier = Mathf.Max(0.1f, _attackSpeedMultiplier - amount); 
     }
 
-    private async void HandleAttack()
+    private void HandleAttack()
     {
-        
+
         if (_isShildUp | _isAttacking) return;
         _isAttacking = true;
-        _player.EnableWeaponCollider(true);
         _player.PlayerAnimator.SetTrigger("FirstAttack");
-        var animationClip = _player.PlayerAnimator.GetCurrentAnimatorClipInfo(1)[0].clip;
-        await Task.Delay(TimeSpan.FromSeconds(animationClip.length * _playerModel.AttackSpeed));
-        
-        _player.EnableWeaponCollider(false);
-        _isAttacking = false;
+       _isAttacking = false;
         _player.WeaponController.EnemyTarget.Clear();
        
     }
@@ -73,11 +68,14 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
     private void HandleBlock()
     {
         if (_isAttacking) return;
-        
+        _isShildUp = true;
+        _player.EnableShealdCollider(true);
+        _player.PlayerAnimator.SetBool("Block", true);
     }
 
     private void PlayerMove(Vector3 move)
     {
+        if(_isAttacking == true) return ;
         _player.PlayerAnimator.SetFloat("Value", move.magnitude);
         var axisX = _camera.transform.forward;
         var axisY = _camera.transform.right;
@@ -107,9 +105,29 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
         if(_currentHealth <= 0)
         {
             _currentHealth = 0;
+            _player.PlayerAnimator.SetBool("Dead",true);
+            PlayerIsDead?.Invoke();
+            _playerInput.Player.Disable();
+            _onMove?.Disable();
+            _playerInput.Player.Fire.performed -= OnAttack;
+            _playerInput.Player.Block.performed -= EnableBlock;
+            _playerInput.Player.Block.canceled -= DisableBlock;
+            _playerInput.Player.Fire.Disable();
+            _playerInput.Player.Block.Disable();
+        }
+    }
+
+    public void RecoverHealth(float healthRevover)
+    {
+        _currentHealth += healthRevover;
+        if (_currentHealth > _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth)
+        {
+            HealthIsRecover?.Invoke();
+            _currentHealth = _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
             
         }
     }
+    
 
     public void Tick()
     {
@@ -126,9 +144,13 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
         _currentHealth = _playerModel.PlayerMaxHealth;
         _heroHealthBar.fillAmount = _currentHealth / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
         _onMove = _playerInput.Player.Move;
-        _playerInput.Player.Fire.performed += OnAttack;
-        _playerInput.Player.Block.performed += OnBlock;
         _playerInput.Player.Enable();
+        _playerInput.UI.Disable();
+        _player.PlayerAnimator.SetBool("Dead",false);
+        _playerInput.Player.Fire.performed += OnAttack;
+        _playerInput.Player.Block.performed += EnableBlock;
+        _playerInput.Player.Block.canceled += DisableBlock;
+        
         
     }
 
@@ -136,22 +158,31 @@ public class PlayerController: ITickable,IInitializable,IDisposable,IPlayer
     {
         _onMove?.Disable();
         _playerInput.Player.Fire.performed -= OnAttack;
-        _playerInput.Player.Block.performed -= OnBlock;
+        _playerInput.Player.Block.performed -= EnableBlock;
+        _playerInput.Player.Block.canceled -= DisableBlock;
         _playerInput.Player.Fire.Disable();
         _playerInput.Player.Block.Disable();
+        
         
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if(_isAttacking) { return; }
+        if (_isAttacking == true) return;
         HandleAttack();
 
     }
 
-    public void OnBlock(InputAction.CallbackContext context)
+    public void EnableBlock(InputAction.CallbackContext context)
     {
         HandleBlock();
+    }
+
+    public void DisableBlock(InputAction.CallbackContext callback)
+    {
+        _player.PlayerAnimator.SetBool("Block", false);
+        _player.EnableShealdCollider(false);
+        _isShildUp = false;
     }
 
     

@@ -46,6 +46,7 @@ namespace TMPro.Examples
             m_cameraTransform = Camera.main.transform;
         }
 
+        [System.Obsolete]
         void Start()
         {
             if (SpawnType == 0)

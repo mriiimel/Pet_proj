@@ -15,8 +15,7 @@ MonoBehaviour:
   heroConfigs:
   - PlayerType: 0
     Player: {fileID: 3492089922635376533, guid: d1939d2036f56a741966d66f4934e6e7, type: 3}
-    MaxHealth: 100
-    Damage: 20
+    MaxHealth: 200
     CritChance: 30
     Speed: 5
     RotationSpeed: 3

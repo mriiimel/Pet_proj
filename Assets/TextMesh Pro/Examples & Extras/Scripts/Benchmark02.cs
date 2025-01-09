@@ -14,7 +14,7 @@ namespace TMPro.Examples
         public bool IsTextObjectScaleStatic;
         private TextMeshProFloatingText floatingText_Script;
 
-
+        [System.Obsolete]
         void Start()
         {
 

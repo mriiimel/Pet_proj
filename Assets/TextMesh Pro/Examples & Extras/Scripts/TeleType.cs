@@ -18,7 +18,7 @@ namespace TMPro.Examples
 
         private TMP_Text m_textMeshPro;
 
-
+        [System.Obsolete]
         void Awake()
         {
             // Get Reference to TextMeshPro Component

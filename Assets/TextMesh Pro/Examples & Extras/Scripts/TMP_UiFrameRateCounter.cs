@@ -23,6 +23,7 @@ namespace TMPro.Examples
 
         private FpsCounterAnchorPositions last_AnchorPosition;
 
+        [System.Obsolete]
         void Awake()
         {
             if (!enabled)

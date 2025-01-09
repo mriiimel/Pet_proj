@@ -16,6 +16,8 @@ MonoBehaviour:
   - Type: 0
     potion: {fileID: 5458213418515225398, guid: 6c64f3cd9f229a441bff84a0e43174d1, type: 3}
     <HealthRecover>k__BackingField: 1000
+    <CoolDown>k__BackingField: 15
   - Type: 1
     potion: {fileID: 7780630441102287659, guid: 658a618a3dc92cb4aac041ff9de6574c, type: 3}
     <HealthRecover>k__BackingField: 100
+    <CoolDown>k__BackingField: 7

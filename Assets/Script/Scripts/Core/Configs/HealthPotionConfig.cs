@@ -7,8 +7,18 @@ public class HealthPotionConfig : ScriptableObject
 {
     [SerializeField] private List<HealthPotionEditor> healthPotions;
 
-    public List<HealthPotionEditor> GetPotionValue()
+    
+    
+    public HealthPotionEditor GetPotion(HealthPotionType healthPotionType)
     {
-        return healthPotions;
+        foreach(var value in healthPotions)
+        {
+            if(healthPotionType == value.Type)
+            {
+                return value;
+            }
+        }
+        return null;
     }
+
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ad0267ec524f949ae2a8cb5cb85b6a, type: 3}
+  m_Name: EnemyFaces
+  m_EditorClassIdentifier: 
+  _idleFace: {fileID: 2100000, guid: d0ea9b95dc0672a42b8c41765a1288ab, type: 2}
+  _friendlyFace: {fileID: 2100000, guid: e4e66c5666d13834cbfb3c4472c39c3d, type: 2}
+  _pockerFace: {fileID: 2100000, guid: 5e619bcfa5334e240b2fc884c6514f4f, type: 2}
+  _attackFace: {fileID: 2100000, guid: 828663295ae4fee42a656b3c67f74ac9, type: 2}
+  _deadFace: {fileID: 2100000, guid: 4740b175510090f41847b0ef08feed14, type: 2}

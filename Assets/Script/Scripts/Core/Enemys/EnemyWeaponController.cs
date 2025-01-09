@@ -3,6 +3,8 @@ using Zenject;
 
 public class EnemyWeaponController : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem _damageEffect;
+    
     private PlayerController _playerController;
     private ScriptableObjectService _scriptableObjectService;
     private EnemyView _enemyView;
@@ -20,8 +22,10 @@ public class EnemyWeaponController : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             _playerController.GetDamage(_scriptableObjectService.EnemyConfig.GetEnemy(_enemyView.EnemyType).EnemyAttack);
+            _damageEffect.Play();
+            _damageEffect.transform.position = other.gameObject.transform.position;
         }
     }
-
+    
     
 }

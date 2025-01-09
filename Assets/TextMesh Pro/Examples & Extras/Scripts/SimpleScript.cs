@@ -14,7 +14,7 @@ namespace TMPro.Examples
         private const string label = "The <#0050FF>count is: </color>{0:2}";
         private float m_frame;
 
-
+        [System.Obsolete]
         void Start()
         {
             // Add new TextMesh Pro Component

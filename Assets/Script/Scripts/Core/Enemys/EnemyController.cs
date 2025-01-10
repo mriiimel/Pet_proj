@@ -43,7 +43,7 @@ public class EnemyController: MonoBehaviour//,IDisposable
 
     private void Start()
     {
-        
+        _enemyView.DieEffect.Stop();
         UbdateEnemyHealhBar();
         _enemyHealth = _enemyHealthBar.GetComponent<Image>();
         _currentHealth = _configAllEnemys.GetEnemy(_enemyView.EnemyType).EnemyHealth;

@@ -15,13 +15,14 @@ public class PlayerController: ITickable,IInitializable,IPlayer
     private Camera _camera;
     private PlayerInput _playerInput;
     private InputAction _onMove;
-    private UiView _uiView;
+    private PlayerStates _states;
+    
     
 
     private Image _heroHealthBar;
     private Vector3 m_MoveDirection;
     private float _attackSpeedMultiplier;
-    private float _currentHealth = 0;
+    
 
     public static event Action HealthIsRecover;
     public static event Action PlayerIsDead;
@@ -31,18 +32,21 @@ public class PlayerController: ITickable,IInitializable,IPlayer
     #endregion
 
 
-    public PlayerController(PlayerView playerView,PlayerModel playerModel,PlayerInput inputActions, UiView uiView)
+    public PlayerController(PlayerView playerView,PlayerModel playerModel,PlayerInput inputActions,PlayerStates playerStates)
     {
         _player = playerView;
         _playerModel = playerModel;
         _scriptableObjectService = playerModel.ScriptableObjectService;
         _camera = playerModel.CameraView;
         _playerInput = inputActions;
-        _uiView = uiView;   
         _attackSpeedMultiplier = playerModel.AttackSpeed;
-        
+        _states = playerStates;
     }
 
+    public void SetHeroHealthBar(Image healthBar)
+    {
+        _heroHealthBar = healthBar;
+    }
 
     public void IncreaseAttackSpeed(float amount)
     {
@@ -93,18 +97,22 @@ public class PlayerController: ITickable,IInitializable,IPlayer
         }
     }
 
+    private void OnRestart()
+    {
+        _states.Health = _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+    }
     private void UpdateHealthBar()
     {
-        _heroHealthBar.fillAmount = _currentHealth / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+        _heroHealthBar.fillAmount = _states.Health / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
         
     }
 
     public void GetDamage(float damage)
     {
-        _currentHealth -= damage;
-        if(_currentHealth <= 0)
+        _states.Health -= damage;
+        if(_states.Health <= 0)
         {
-            _currentHealth = 0;
+              
             _player.PlayerAnimator.SetBool("Dead",true);
             PlayerIsDead?.Invoke();
             _playerInput.Player.Disable();
@@ -119,11 +127,11 @@ public class PlayerController: ITickable,IInitializable,IPlayer
 
     public void RecoverHealth(float healthRevover)
     {
-        _currentHealth += healthRevover;
-        if (_currentHealth > _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth)
+        _states.Health += healthRevover;
+        if (_states.Health > _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth)
         {
             HealthIsRecover?.Invoke();
-            _currentHealth = _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+            _states.Health = _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
             
         }
     }
@@ -140,12 +148,11 @@ public class PlayerController: ITickable,IInitializable,IPlayer
 
     public void Initialize()
     {
-        _heroHealthBar = _uiView.HeroHealthBar;
-        _currentHealth = _playerModel.PlayerMaxHealth;
-        _heroHealthBar.fillAmount = _currentHealth / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
+        _heroHealthBar.fillAmount = _states.Health / _scriptableObjectService.PlayerConfig.GetHeroValue().MaxHealth;
         _onMove = _playerInput.Player.Move;
         _playerInput.Player.Enable();
         _playerInput.UI.Disable();
+        UIController.RestartGame += OnRestart;
         _player.PlayerAnimator.SetBool("Dead",false);
         _playerInput.Player.Fire.performed += OnAttack;
         _playerInput.Player.Block.performed += EnableBlock;
@@ -156,6 +163,7 @@ public class PlayerController: ITickable,IInitializable,IPlayer
 
     public void Dispose()
     {
+        UIController.RestartGame -= OnRestart;
         _onMove?.Disable();
         _playerInput.Player.Fire.performed -= OnAttack;
         _playerInput.Player.Block.performed -= EnableBlock;

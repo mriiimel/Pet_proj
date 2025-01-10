@@ -27,5 +27,10 @@ public class Factory : MonoBehaviour
     public int MaxEnemys { get => _maxEnemys; set => _maxEnemys = value; }
     public Transform BigHealthPotionSpawn { get => _bigHealthPotionSpawn; set => _bigHealthPotionSpawn = value; }
     public Transform SmallHealthPotionSpawn { get => _smallHealthPotionSpawn; set => _smallHealthPotionSpawn = value; }
+
+    private void OnDisable()
+    {
+        Destroy(gameObject);
+    }
 }
 

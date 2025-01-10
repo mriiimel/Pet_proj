@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -16,7 +17,7 @@ public class FactoryController: MonoBehaviour
     private EnemyCounter _enemyCounter;
     private HealthPotionFactory _healthPotionFactory;
     private UiView _uiView;
-    
+    private GameData _gameData;
 
     private int _currentEnemy = 0;
     private int _currentEnemyOnScene = 0;
@@ -48,6 +49,27 @@ public class FactoryController: MonoBehaviour
         TotalEnemyKilledToUpdate();
     }
 
+    private void SaveToFile(GameData data)
+    {
+        string json = JsonUtility.ToJson(data);
+        string path = Path.Combine(Application.persistentDataPath, "gameData.json");
+        File.WriteAllText(path, json);
+    }
+
+    private GameData LoadFromFile()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "gameData.json");
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            return JsonUtility.FromJson<GameData>(json);
+        }
+        else
+        {
+            return new GameData();  
+        }
+    }
     
     private void EnemyInit()
     {
@@ -105,7 +127,8 @@ public class FactoryController: MonoBehaviour
     
     public void Awake()
     {
-        
+        GameData data = LoadFromFile();
+        _uiView.TotalKillInLastSession.text = $"Last Session Kills: {LoadFromFile().EnemyKilled}";
         EnemyController.EnemyIsDead += HandleEnemyIsDead;
         _playerFactory.CreatePlayer(_factory.HeroSpawn);
         EnemyInit();
@@ -120,6 +143,9 @@ public class FactoryController: MonoBehaviour
     private void OnDisable()
     {
         EnemyController.EnemyIsDead -= HandleEnemyIsDead;
+        GameData data = new() { EnemyKilled = _totalEnemyKilled };
+        SaveToFile(data);
+        
     }
 
 }

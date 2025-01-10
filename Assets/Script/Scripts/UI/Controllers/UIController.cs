@@ -11,13 +11,15 @@ public class UIController : MonoBehaviour //,IDisposable
     private UiView _view;
     private PlayerInput _playerInput;
     private ZenjectSceneLoader _sceneLoader;
-
+    private PlayerController _playerController;
+    public static event Action RestartGame;
     [Inject]
-    public void Construct(UiView uiView,Camera camera,PlayerInput inputActions,ZenjectSceneLoader zenjectSceneLoader)
+    public void Construct(UiView uiView,Camera camera,PlayerInput inputActions,ZenjectSceneLoader zenjectSceneLoader,PlayerController playerController)
     {
         _view = uiView;
         _playerInput = inputActions;
         _sceneLoader = zenjectSceneLoader;
+        _playerController = playerController;
     }
     
     
@@ -28,14 +30,16 @@ public class UIController : MonoBehaviour //,IDisposable
     
     private void ActivatePlayerIsDeadWindow()
     {
-        _view.PlayerIsDeadWindow.SetActive(true);
+        _view.MenuWindow.SetActive(true);
         _playerInput.UI.Enable();
     }
 
     
     public  void OnPause(InputAction.CallbackContext context)
     {
-        
+        _playerInput.Player.Disable();
+        _playerInput.UI.Enable();
+        _view.MenuWindow.SetActive(true);
     }
 
     private void Paused()
@@ -46,7 +50,9 @@ public class UIController : MonoBehaviour //,IDisposable
     }
     private void Resume()
     {
-        
+        _playerInput?.Player.Enable();
+        _playerInput.UI.Disable();
+        _view.MenuWindow.SetActive(false);
         
         
     }
@@ -63,8 +69,8 @@ public class UIController : MonoBehaviour //,IDisposable
 
     private void Restart()
     {
-        _view.PlayerIsDeadWindow.SetActive(false);
-        
+        _view.MenuWindow.SetActive(false);
+        RestartGame?.Invoke();
         _playerInput.UI.Disable();
         PlayerController.PlayerIsDead -= ActivatePlayerIsDeadWindow;
         _view.RestartButton.onClick.RemoveListener(Restart);
@@ -84,13 +90,20 @@ public class UIController : MonoBehaviour //,IDisposable
     }
     public void Awake()
     {
+        _playerInput.Player.InvokeMenuPause.performed += OnPause;
         PlayerController.PlayerIsDead += ActivatePlayerIsDeadWindow;
         _view.RestartButton.onClick.AddListener(Restart);
         _view.ExitGameButton.onClick.AddListener(Exit);
+        _view.ReturnButton.onClick.AddListener(Resume);
+        _playerController.SetHeroHealthBar(_view.HeroHealthBar);
         
     }
     private void OnDisable()
     {
+        _view.RestartButton.onClick.RemoveListener(Restart);
+        _view.ExitGameButton.onClick.RemoveListener(Exit);
+        _view.ReturnButton.onClick.RemoveListener(Resume);
         StopAllCoroutines();
+        Destroy(gameObject);
     }
 }
